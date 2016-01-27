@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_id": "students-1007",
+    "project_number": "643454718057",
+    "name": "Students"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:643454718057:android:4d7363acff996fd2",
+        "client_id": "android:in.ac.iitm.students",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "in.ac.iitm.students"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 2,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

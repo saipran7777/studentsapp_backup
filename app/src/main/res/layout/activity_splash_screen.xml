@@ -1,0 +1,33 @@
+<RelativeLayout
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/imageView2"
+        android:src="@drawable/splash_background"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageView4"
+        android:src="@drawable/iitm_logo"
+        android:layout_marginTop="81dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Students App"
+        android:id="@+id/textView8"
+        android:layout_below="@+id/imageView4"
+        android:layout_centerHorizontal="true"
+        android:textColor="#b91616"
+        android:textStyle="bold"
+        android:textSize="30dp" />
+</RelativeLayout>

@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <com.google.android.gms.maps.MapView android:id="@+id/mapview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@android:drawable/editbox_background_normal"
+        android:layout_margin="10dp">
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/editText"
+            android:layout_alignBottom="@+id/map"
+            android:layout_alignRight="@+id/map"
+            android:layout_alignEnd="@+id/map"
+            android:layout_weight=".2"
+            android:background="@null"/>
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/button"
+
+            android:src="@drawable/ic_search_black_24dp"
+            android:background="#0079ffa6" />
+    </LinearLayout>
+
+</RelativeLayout>
