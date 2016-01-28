@@ -2,10 +2,14 @@ package in.ac.iitm.students.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -19,6 +23,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import in.ac.iitm.students.MainActivity;
 import in.ac.iitm.students.R;
+import io.codetail.animation.SupportAnimator;
+import io.codetail.animation.ViewAnimationUtils;
 
 
 /**
@@ -28,6 +34,7 @@ import in.ac.iitm.students.R;
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     MapView mapView;
     GoogleMap map;
+    AutoCompleteTextView search;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +43,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapview);
+        search =(AutoCompleteTextView) v.findViewById(R.id.search) ;
         mapView.onCreate(savedInstanceState);
 
         // Gets to GoogleMap from the MapView and does initialization stuff
@@ -63,8 +71,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
         rlp.setMargins(0, 0, 30, 30);
-        //  new GetSuggestion().execute("crc");
 
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("jhbhjb","i am here");
+                CardView myView =(CardView) v.findViewById(R.id.card);
+                myView.setVisibility(View.VISIBLE);
+                // get the center for the c   lipping circle
+               /* int cx = (myView.getLeft() + myView.getRight()) / 2;
+                int cy = (myView.getTop() + myView.getBottom()) / 2;
+
+                // get the final radius for the clipping circle
+                int dx = Math.max(cx, myView.getWidth() - cx);
+                int dy = Math.max(cy, myView.getHeight() - cy);
+                float finalRadius = (float) Math.hypot(dx, dy);
+*/
+                SupportAnimator animator =
+                        ViewAnimationUtils.createCircularReveal(myView, 0, 0, 0, v.getHeight());
+                animator.setInterpolator(new AccelerateDecelerateInterpolator());
+                animator.setDuration(1500);
+                animator.start();
+            }
+        });
+        //  new GetSuggestion().execute("crc");
         return v;
     }
 

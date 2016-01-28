@@ -19,7 +19,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -30,10 +29,9 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import in.ac.iitm.students.Fragments.EventsFragment;
 import in.ac.iitm.students.Fragments.GalleryFragment;
 import in.ac.iitm.students.Fragments.MapFragment;
-import in.ac.iitm.students.Fragments.NotificationFragment;
+import in.ac.iitm.students.Fragments.ImportantContacts;
 import in.ac.iitm.students.Gcm.QuickstartPreferences;
 import in.ac.iitm.students.Gcm.RegistrationIntentService;
-import in.ac.iitm.students.Views.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -153,8 +151,8 @@ public class MainActivity extends AppCompatActivity
         showViews();
         FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
-        if (id == R.id.nav_notification) {
-            fragmentTransaction.replace(R.id.fragment_container, new NotificationFragment());
+        if (id == R.id.nav_contacts) {
+            fragmentTransaction.replace(R.id.fragment_container, new ImportantContacts());
         } else if (id == R.id.nav_map) {
             hideViews();
             fragmentTransaction.replace(R.id.fragment_container, new MapFragment());
