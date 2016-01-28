@@ -1,58 +1,82 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="fill_parent">
 
-    <com.google.android.gms.maps.MapView android:id="@+id/mapview"
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
-    <LinearLayout
-        android:orientation="horizontal"
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/search"
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:background="@android:drawable/editbox_background_normal"
+        android:layout_height="45dp"
         android:layout_margin="10dp"
-        android:id="@+id/search">
+        android:background="@android:drawable/editbox_background_normal"
+        android:elevation="6dp"
+        android:orientation="horizontal">
 
-        <AutoCompleteTextView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:id="@+id/editText"
-            android:layout_alignBottom="@+id/map"
-            android:layout_alignRight="@+id/map"
-            android:layout_alignEnd="@+id/map"
-            android:layout_weight=".2"
-            android:background="@null"/>
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:id="@+id/button"
+            <AutoCompleteTextView
+                android:id="@+id/searcheditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@+id/map"
+                android:layout_alignEnd="@+id/map"
+                android:layout_alignRight="@+id/map"
+                android:layout_weight=".2"
+                android:background="@null"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:singleLine="true" />
 
-            android:src="@drawable/ic_search_black_24dp"
-            android:background="#0079ffa6" />
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/buttonSearch"
+                android:layout_width="40dp"
+                android:layout_height="fill_parent"
+
+                android:background="#0079ffa6"
+                android:src="@drawable/ic_search_black_24dp" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
     <io.codetail.widget.RevealFrameLayout
+        android:id="@+id/reveal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/search"
-        android:layout_alignRight="@+id/search"
         android:layout_alignEnd="@+id/search"
         android:layout_alignLeft="@+id/search"
+        android:layout_alignRight="@+id/search"
         android:layout_alignStart="@+id/search"
-        android:layout_marginBottom="5dp"
-        android:id="@+id/reveal"
-       >
+        android:layout_below="@+id/search"
+        android:layout_marginBottom="5dp">
+
         <android.support.v7.widget.CardView
+            android:id="@+id/cardSearch"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:cardElevation="3dp"
             android:layout_margin="3dp"
-            android:id="@+id/card"
-            android:visibility="gone">
+            android:visibility="invisible"
+            app:cardElevation="3dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/mapRecycler">
+
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
         </android.support.v7.widget.CardView>
 
     </io.codetail.widget.RevealFrameLayout>
