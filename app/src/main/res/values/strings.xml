@@ -27,4 +27,5 @@
 
 
     <string name="StudentsMapSearchurl">https://students.iitm.ac.in/studentsapp/map/search.php</string>
+    <string name="ImageUploadUrl">https://students.iitm.ac.in/studentsapp/images/upload.php</string>
 </resources>

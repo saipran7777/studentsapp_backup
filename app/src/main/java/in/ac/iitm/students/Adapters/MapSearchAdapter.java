@@ -5,6 +5,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -34,7 +35,9 @@ public class MapSearchAdapter  extends RecyclerView.Adapter<MapSearchAdapter.Vie
     Marker marker;
     GoogleMap map;
     CardView cardView;
-    public  MapSearchAdapter(Context context, ArrayList<Location> Locations,Marker marker,GoogleMap map,CardView cardView){
+    int x,y;
+    public  MapSearchAdapter(Context context, ArrayList<Location> Locations,Marker marker,GoogleMap
+            map,CardView cardView){
         this.cardView=cardView;
         this.Locations=Locations;
         this.context=context;
@@ -57,10 +60,21 @@ public class MapSearchAdapter  extends RecyclerView.Adapter<MapSearchAdapter.Vie
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               AddMarker(location);
-                StartAnimation();
+                StartAnimation(location);
             }
         });
+        holder.layout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                // Log.d(LOG_TAG, "x = " + motionEvent.getX() + " y = " + motionEvent.getY());
+                x= (int) motionEvent.getX();
+                y= (int) motionEvent.getY();
+
+                Log.d(Integer.toString(x),Integer.toString(y));
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -88,14 +102,16 @@ public class MapSearchAdapter  extends RecyclerView.Adapter<MapSearchAdapter.Vie
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 16));
         map.animateCamera(CameraUpdateFactory.zoomTo(16), 1000, null);
         marker.showInfoWindow();
+        MapFragment.marker =marker;
         return;
     }
-    void StartAnimation(){
+    void StartAnimation(final Location location){
         final SupportAnimator[] animator = new SupportAnimator[1];
 
         if (true) {
             Log.d("dgh","2");
-            animator[0] = ViewAnimationUtils.createCircularReveal(cardView, cardView.getWidth()/2, 0, cardView.getHeight(), 0);
+            animator[0] = ViewAnimationUtils.createCircularReveal(cardView,cardView.getWidth()/2 ,
+                   y, cardView.getHeight(), 0);
             animator[0].setDuration(500);
             animator[0].setInterpolator(new AccelerateDecelerateInterpolator());
             animator[0].start();
@@ -109,8 +125,7 @@ public class MapSearchAdapter  extends RecyclerView.Adapter<MapSearchAdapter.Vie
                 public void onAnimationEnd() {
                     animator[0] = null;
                     cardView.setVisibility(cardView.INVISIBLE);
-                    Log.d("dgh","2");
-
+                    AddMarker(location);
                 }
 
                 @Override
@@ -126,4 +141,5 @@ public class MapSearchAdapter  extends RecyclerView.Adapter<MapSearchAdapter.Vie
         }
         return;
     }
+
 }

@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.CardView;
@@ -12,11 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 import in.ac.iitm.students.Fragments.ImportantContacts;
 import in.ac.iitm.students.Objects.Contacts;
@@ -58,6 +63,11 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         holder.DisplayName.setText(contact.getName());
         holder.number.setText(contact.getPhoneNumber());
         addAction(holder.layout,holder.Expanded,150);
+        Random rnd = new Random();
+        int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+        TextDrawable drawable1 = TextDrawable.builder()
+                .buildRound(contact.getName().substring(0,1), color);
+        holder.firstLetter.setImageDrawable(drawable1);
     }
 
     @Override
@@ -69,15 +79,17 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         public RelativeLayout Expanded;
         TextView number,DisplayName;
         AppCompatImageButton imageButton;
-        CardView layout;
+        LinearLayout layout;
+        ImageView firstLetter;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            layout = (CardView) itemView.findViewById(R.id.layout);
+            layout = (LinearLayout) itemView.findViewById(R.id.layout);
             Expanded = (RelativeLayout) itemView.findViewById(R.id.hidencontainer);
             number = (TextView) itemView.findViewById(R.id.number);
             DisplayName = (TextView) itemView.findViewById(R.id.dispName);
             imageButton = (AppCompatImageButton) itemView.findViewById(R.id.call);
+            firstLetter =(ImageView) itemView.findViewById(R.id.firstLetter);
         }
     }
     public void dialPhoneNumber(String phoneNumber) {

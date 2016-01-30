@@ -65,8 +65,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     final Gson gson = new Gson();
     Boolean inRequest=false;
     RecyclerView mRecyclerView;
-    Marker  marker;
+    public static Marker  marker;
     CardView myView = null;
+    public static int xCard,yCard;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_maps, container, false);
@@ -76,12 +77,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapView = (MapView) v.findViewById(R.id.mapview);
         search =(AutoCompleteTextView) v.findViewById(R.id.searcheditText) ;
         mapView.onCreate(savedInstanceState);
-
         // Gets to GoogleMap from the MapView and does initialization stuff
         map = mapView.getMap();
         map.setPadding(0, 70, 0, 0);
-
-        // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
         MapsInitializer.initialize(this.getActivity());
         map.setMyLocationEnabled(true);
 
@@ -121,8 +119,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 int dx = Math.max(cx, myView.getWidth() - cx);
                 int dy = Math.max(cy, myView.getHeight() - cy);
                 float finalRadius = (float) Math.hypot(dx, dy);
-               animator[0] =
-                        ViewAnimationUtils.createCircularReveal(myView, x[0],0, 0, myView.getHeight());
+                animator[0] =
+                        ViewAnimationUtils.createCircularReveal(myView, x[0],0, 0,2*myView.getHeight());
                 animator[0].setInterpolator(new AccelerateDecelerateInterpolator());
                 animator[0].setDuration(500);
                 animator[0].start();
@@ -142,10 +140,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             @Override
             public void onClick(View v) {
-                Log.d("dgh","1");
 
                 if (animator[0] != null && !animator[0].isRunning()) {
-                    Log.d("dgh","2");
                     animator[0] = ViewAnimationUtils.createCircularReveal(myView, myView.getWidth(), 0, myView.getHeight(), 0);
                     animator[0].setDuration(500);
                     animator[0].start();
@@ -159,8 +155,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         public void onAnimationEnd() {
                             animator[0] = null;
                             myView.setVisibility(myView.INVISIBLE);
-                            Log.d("dgh","2");
-
                         }
 
                         @Override
@@ -200,7 +194,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mRecyclerView = (RecyclerView) v.findViewById(R.id.mapRecycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
-        //  new GetSuggestion().execute("crc");
+
+
         return v;
     }
 
@@ -249,17 +244,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     @Override
                     public void onResponse(String response) {
                         Log.d("response",response);
+                        if(!response.equals("1")){
 
-                        ArrayList<Location> locationList= null;
-                        try {
-                            locationList = (ArrayList<Location>) gson.fromJson(response,
-                                    new TypeToken<ArrayList<Location>>() {
-                                    }.getType());
-                        } catch (JsonSyntaxException e) {
-                            e.printStackTrace();
-                        }
-                        if(locationList!=null){
-                            mRecyclerView.setAdapter(new MapSearchAdapter(getActivity(),locationList,marker,map,myView));
+                            ArrayList<Location> locationList= null;
+                            try {
+                                locationList = (ArrayList<Location>) gson.fromJson(response,
+                                        new TypeToken<ArrayList<Location>>() {
+                                        }.getType());
+                            } catch (JsonSyntaxException e) {
+                                e.printStackTrace();
+                            }
+                            if(locationList!=null){
+                                mRecyclerView.setAdapter(new MapSearchAdapter(getActivity(),locationList,marker,map,myView));
+                            }
                         }
                         inRequest=false;
                         //Log.d("Location Name",locationList.get(1).getDepname());
@@ -269,6 +266,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         inRequest=false;
+                        Toast.makeText(getActivity(),error.getMessage(),Toast.LENGTH_SHORT).show();
                         Log.d("volley",error.toString());
                         //  Toast.makeText(MainActivity.this,error.toString(),Toast.LENGTH_LONG).show();
                     }
@@ -282,15 +280,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         };
         queue.add(stringRequest);
         return ;
-    }
-    void AddMarker(Location location){
-        marker.remove();
-        LatLng position = new LatLng(location.getLat(), location.getLng());
-        marker = map.addMarker(new MarkerOptions().position(position)
-                .title(location.getLocname()));
-        marker.setSnippet(location.getLocdescrip());
-        marker.showInfoWindow();
-        return;
     }
 
 }

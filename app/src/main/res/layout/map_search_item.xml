@@ -3,6 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="81dp">
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 <LinearLayout
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="80dp"
@@ -45,6 +48,7 @@
             android:textSize="13dp" />
     </LinearLayout>
 </LinearLayout>
+    </com.balysv.materialripple.MaterialRippleLayout>
     <View
         android:layout_marginLeft="70dp"
         android:layout_width="match_parent"
