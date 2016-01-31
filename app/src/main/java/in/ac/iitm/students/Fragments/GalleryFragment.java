@@ -3,9 +3,11 @@ package in.ac.iitm.students.Fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.PreferenceActivity;
@@ -36,27 +38,40 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
+
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import in.ac.iitm.students.Adapters.GalleryAdapter;
 import in.ac.iitm.students.Adapters.NewPauseOnScrollListener;
 import in.ac.iitm.students.MainActivity;
 import in.ac.iitm.students.Objects.GridImage;
+import in.ac.iitm.students.Objects.IOUtil;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.Utils.Utils;
 import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
 
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.InputStreamBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
@@ -135,7 +150,7 @@ public class GalleryFragment extends Fragment {
         });
         fabtic.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 fabaddImage.show();
                 fabtic.hide();
                 animator[0] = ViewAnimationUtils.createCircularReveal(myView, myView.getWidth(),
@@ -152,7 +167,12 @@ public class GalleryFragment extends Fragment {
                     public void onAnimationEnd() {
                         animator[0] = null;
                         myView.setVisibility(myView.INVISIBLE);
-                        uploadImage();
+                        if (filePath ==null){
+                            Snackbar.make(v, "You haven't selected file to upload", Snackbar.LENGTH_LONG);
+
+                        }else {
+                            new  upload().execute();
+                        }
                     }
 
                     @Override
@@ -225,7 +245,7 @@ public class GalleryFragment extends Fragment {
     public ArrayList<GridImage> getImages(final View view) {
         String url =getString(R.string.url_images);
         final ArrayList<GridImage> images =new ArrayList<GridImage>();
-        final RequestQueue queue = Volley.newRequestQueue(getContext());
+        final RequestQueue queue = Volley.newRequestQueue(getActivity());
 
         if (!mSwipeRefreshLayout.isRefreshing()) {
             Log.d("refreshing", "refresh");
@@ -262,7 +282,7 @@ public class GalleryFragment extends Fragment {
                     JSONObject jo = null;
                     try {
                         jo = jsonArray[0].getJSONObject(i);
-                        images.add(new GridImage(jo.getString("flag"),jo.getString("country")));
+                        images.add(new GridImage(jo.getString("name"),jo.getString("rollno")));
                         Log.d("Log", jo.getString("flag"));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -288,7 +308,7 @@ public class GalleryFragment extends Fragment {
                         for (int i =0;i< jsonArray[0].length();i++) {
                             JSONObject jo = null;
                             jo = jsonArray[0].getJSONObject(i);
-                            images.add(new GridImage(jo.getString("flag"), jo.getString("country")));
+                            images.add(new GridImage(jo.getString("name"), jo.getString("rollno")));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -368,7 +388,112 @@ public class GalleryFragment extends Fragment {
         //Adding request to the queue
         requestQueue.add(stringRequest);
     }
-    private  void uploadImage2(){
 
+    private void uploadFile(Uri filePath, String fileName) {
+       InputStream inputStream;
+        //  getActivity().getContentResolver().openInputStream(filePath);
+
+        // inputStream = new FileInputStream(new File(filePath));
+        //  Log.d("file path",filePath);
+        // byte[] data=IOUtil.readFile(filePath);
+        try {
+          // data = IOUtils.toByteArray(inputStream);
+            inputStream = getActivity().getContentResolver().openInputStream(filePath);;
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] b = new byte[1024];
+            int bytesRead =inputStream.read(b);
+            while ( bytesRead  != -1) {
+                bos.write(b, 0, bytesRead);
+                bytesRead= inputStream.read(b);
+            }
+            byte[] bytes = bos.toByteArray();
+
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(getString(R.string.ImageUploadUrl));
+
+            InputStreamBody inputStreamBody = new InputStreamBody(new ByteArrayInputStream(bytes), fileName);
+            MultipartEntity multipartEntity = new MultipartEntity();
+            multipartEntity.addPart("fileToUpload", inputStreamBody);
+            httpPost.setEntity(multipartEntity);
+
+            HttpResponse httpResponse = httpClient.execute(httpPost);
+
+            // Handle response back from script.
+            if(httpResponse != null) {
+                Log.d("response",httpResponse.toString());
+             //   httpResponse.toString();
+            } else { // Error, no response.
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public  class upload extends AsyncTask<String, Void, String>{
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...",	"Uploading Image ...", true);
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            imageViewButton.setVisibility(View.VISIBLE);
+            imageView.setVisibility(View.INVISIBLE);
+            ringProgressDialog.dismiss();
+            getImages(v);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ringProgressDialog.setCancelable(false);
+            ringProgressDialog.show();
+
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            InputStream inputStream;
+            //  getActivity().getContentResolver().openInputStream(filePath);
+
+            // inputStream = new FileInputStream(new File(filePath));
+            //  Log.d("file path",filePath);
+            // byte[] data=IOUtil.readFile(filePath);
+            try {
+                // data = IOUtils.toByteArray(inputStream);
+                inputStream = getActivity().getContentResolver().openInputStream(filePath);;
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                byte[] b = new byte[1024];
+                int bytesRead =inputStream.read(b);
+                while ( bytesRead  != -1) {
+                    bos.write(b, 0, bytesRead);
+                    bytesRead= inputStream.read(b);
+                }
+                byte[] bytes = bos.toByteArray();
+
+
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost(getString(R.string.ImageUploadUrl));
+
+                InputStreamBody inputStreamBody = new InputStreamBody(new ByteArrayInputStream(bytes), "salf");
+                MultipartEntity multipartEntity = new MultipartEntity();
+                multipartEntity.addPart("fileToUpload", inputStreamBody);
+                httpPost.setEntity(multipartEntity);
+
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+
+                // Handle response back from script.
+                if(httpResponse != null) {
+                    HttpEntity entity = httpResponse.getEntity();
+                    String responseString = EntityUtils.toString(entity, "UTF-8");
+                    Log.d("response",responseString);
+                    //   httpResponse.toString();
+                } else { // Error, no response.
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }

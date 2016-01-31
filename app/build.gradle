@@ -18,6 +18,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'    }
 }
 
 dependencies {
@@ -37,5 +43,7 @@ dependencies {
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.balysv:material-ripple:1.0.2'
     compile files('libs/universal-image-loader-1.9.4.jar')
-    compile files('libs/android-async-http-1.4.9.jar')
+    compile files('libs/httpclient-4.3.6.jar')
+    compile files('libs/httpcore-4.3.3.jar')
+    compile files('libs/httpmime-4.3.6.jar')
 }

@@ -54,7 +54,7 @@ public class ImportantContacts extends Fragment {
     public void dialPhoneNumber(String phoneNumber) {
                Intent intent = new Intent(Intent.ACTION_DIAL);
                intent.setData(Uri.parse("tel:" + phoneNumber));
-                if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
                        startActivity(intent);
                     }
             }

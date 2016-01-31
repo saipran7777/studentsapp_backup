@@ -13,7 +13,6 @@
 
     <!-- TODO: urls change this-->
 
-    <string name="url_images">http://brozzz.xyz/test/testimages.php</string>
 
     <string name="title_activity_activityrofile">Activityrofile</string>
 <string name="cheese_ipsum">Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
@@ -25,7 +24,7 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_profile_edit">ProfileEditActivity</string>
 
-
+    <string name="url_images">https://students.iitm.ac.in/studentsapp/images/images.php</string>
     <string name="StudentsMapSearchurl">https://students.iitm.ac.in/studentsapp/map/search.php</string>
     <string name="ImageUploadUrl">https://students.iitm.ac.in/studentsapp/images/upload.php</string>
 </resources>
