@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity
             if (intent.resolveActivity(getPackageManager()) != null) {
                startActivity(intent);
             }
-        }else if (id == R.id.web_site){
+        }else if (id == R.id.nav_logout){
             Utils.clearpref(this);
             Intent intent = new Intent(this,LoginActivity.class);
             startActivity(intent);
