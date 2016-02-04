@@ -21,6 +21,8 @@
                 android:title="Share" />
             <item android:id="@+id/web_site" android:icon="@drawable/ic_wb_cloudy_black_24dp"
                 android:title="WebSite" />
+            <item android:id="@+id/nav_logout" android:icon="@drawable/ic_power_settings_new_black_24dp"
+                android:title="Logout" />
         </menu>
     </item>
 

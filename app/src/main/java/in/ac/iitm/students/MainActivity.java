@@ -20,8 +20,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -33,6 +36,9 @@ import in.ac.iitm.students.Fragments.MapFragment;
 import in.ac.iitm.students.Fragments.ImportantContacts;
 import in.ac.iitm.students.Gcm.QuickstartPreferences;
 import in.ac.iitm.students.Gcm.RegistrationIntentService;
+import in.ac.iitm.students.Utils.Strings;
+import in.ac.iitm.students.Utils.Utils;
+import in.ac.iitm.students.Views.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -62,6 +68,17 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_events);
         View headerView = navigationView.getHeaderView(0);
+        TextView name = (TextView) headerView.findViewById(R.id.dispname) ;
+        TextView rollno = (TextView) headerView.findViewById(R.id.navrollno) ;
+        name.setText(Utils.getprefString(Strings.NAME,this));
+        rollno.setText(Utils.getprefString(Strings.ROLLNO,this));
+
+        ImageView circleImageView = (ImageView) headerView.findViewById(R.id.profile_image);
+        Glide.with(this)
+                .load(getString(R.string.urlImage)+ Utils.getprefString(Strings.ROLLNO,this))
+                .centerCrop()
+                .crossFade()
+                .into(circleImageView);
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,6 +197,11 @@ public class MainActivity extends AppCompatActivity
             if (intent.resolveActivity(getPackageManager()) != null) {
                startActivity(intent);
             }
+        }else if (id == R.id.web_site){
+            Utils.clearpref(this);
+            Intent intent = new Intent(this,LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
         fragmentTransaction.commit();
 

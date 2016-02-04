@@ -283,7 +283,7 @@ public class GalleryFragment extends Fragment {
                     try {
                         jo = jsonArray[0].getJSONObject(i);
                         images.add(new GridImage(jo.getString("name"),jo.getString("rollno")));
-                        Log.d("Log", jo.getString("flag"));
+                      //  Log.d("Log", jo.getString("flag"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

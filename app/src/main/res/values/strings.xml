@@ -27,4 +27,7 @@
     <string name="url_images">https://students.iitm.ac.in/studentsapp/images/images.php</string>
     <string name="StudentsMapSearchurl">https://students.iitm.ac.in/studentsapp/map/search.php</string>
     <string name="ImageUploadUrl">https://students.iitm.ac.in/studentsapp/images/upload.php</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="LoginURl">https://students.iitm.ac.in/studentsapp/login/index.php</string>
+    <string name="urlImage">https://photos.iitm.ac.in/byroll.php?roll=</string>
 </resources>

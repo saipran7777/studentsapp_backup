@@ -12,6 +12,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import in.ac.iitm.students.Utils.Strings;
+import in.ac.iitm.students.Utils.Utils;
+
 public class ProfileActivity extends AppCompatActivity {
 
     @Override
@@ -40,6 +43,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
     private void loadBackdrop() {
         final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-        Glide.with(this).load(R.drawable.splash_background).centerCrop().into(imageView);
+        Glide.with(this).load(getString(R.string.urlImage)+ Utils.getprefString(Strings.ROLLNO,this)).centerCrop().into(imageView);
     }
 }

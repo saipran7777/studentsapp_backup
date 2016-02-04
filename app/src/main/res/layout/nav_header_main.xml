@@ -27,18 +27,18 @@
             android:paddingTop="@dimen/activity_vertical_margin">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/dispname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/textView"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:paddingTop="@dimen/nav_header_vertical_spacing"
                 android:text="Arun Padiyan"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:layout_above="@+id/navrollno"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/navrollno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

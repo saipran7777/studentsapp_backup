@@ -6,6 +6,9 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import in.ac.iitm.students.Utils.Strings;
+import in.ac.iitm.students.Utils.Utils;
+
 public class SplashScreen extends AppCompatActivity {
 
     @Override
@@ -17,7 +20,10 @@ public class SplashScreen extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         new CountDownTimer(3000, 1000) {
             public void onFinish() {
-                Intent startActivity = new Intent(SplashScreen.this,MainActivity.class);
+                Intent startActivity =  new Intent(SplashScreen.this,LoginActivity.class);
+                if (Utils.getprefBool(Strings.LOGEDIN,SplashScreen.this)){
+                    startActivity = new Intent(SplashScreen.this,MainActivity.class);
+                }
                 startActivity(startActivity);
                 finish();
             }
