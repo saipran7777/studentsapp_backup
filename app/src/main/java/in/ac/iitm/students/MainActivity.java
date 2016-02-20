@@ -34,6 +34,7 @@ import in.ac.iitm.students.Fragments.EventsFragment;
 import in.ac.iitm.students.Fragments.GalleryFragment;
 import in.ac.iitm.students.Fragments.MapFragment;
 import in.ac.iitm.students.Fragments.ImportantContacts;
+import in.ac.iitm.students.Fragments.TheFifthEstateFragment;
 import in.ac.iitm.students.Gcm.QuickstartPreferences;
 import in.ac.iitm.students.Gcm.RegistrationIntentService;
 import in.ac.iitm.students.Utils.Strings;
@@ -188,6 +189,9 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.fragment_container, new EventsFragment());
         } else if (id == R.id.nav_gallery) {
             fragmentTransaction.replace(R.id.fragment_container, new GalleryFragment());
+        }else if (id==R.id.nav_fifthestate){
+            fragmentTransaction.replace(R.id.fragment_container, new TheFifthEstateFragment());
+
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.web_site) {

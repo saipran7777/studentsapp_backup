@@ -30,4 +30,6 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="LoginURl">https://students.iitm.ac.in/studentsapp/login/index.php</string>
     <string name="urlImage">https://photos.iitm.ac.in/byroll.php?roll=</string>
+    <string name="fifthettateurl">http://www.t5eiitm.org/wp-json/wp/v2/posts</string>
+    <string name="title_activity_news">NewsActivity</string>
 </resources>

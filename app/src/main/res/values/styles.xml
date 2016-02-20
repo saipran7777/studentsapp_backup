@@ -39,6 +39,7 @@
         <item name="colorPrimary">#ffffff</item>
         <item name="colorPrimaryDark">#ffffff</item>
     </style>
+
     <style name="AppTheme.Login" parent="AppTheme.NoActionBar">
 
     </style>

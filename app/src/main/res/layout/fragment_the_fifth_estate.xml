@@ -4,10 +4,12 @@
     android:layout_height="match_parent"
     tools:context="in.ac.iitm.students.Fragments.TheFifthEstateFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+  <android.support.v7.widget.RecyclerView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:id="@+id/recyclerfifthsetate"
+      android:background="#e2dfdf">
+
+  </android.support.v7.widget.RecyclerView>
 
 </FrameLayout>
