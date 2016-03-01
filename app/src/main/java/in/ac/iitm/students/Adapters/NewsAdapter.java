@@ -7,10 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import com.google.gson.Gson;
@@ -25,6 +27,8 @@ import in.ac.iitm.students.NewsActivity;
 import in.ac.iitm.students.Objects.Location;
 import in.ac.iitm.students.Objects.News;
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.Utils.Strings;
+import in.ac.iitm.students.Utils.Utils;
 
 /**
  * Created by arunp on 20-Feb-16.
@@ -61,6 +65,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 context.startActivity(intent);
             }
         });
+        if(news.getImageerl()!=""){
+            holder.imageView.setVisibility(View.VISIBLE);
+            Glide.with(context)
+                    .load(news.getImageerl())
+                    .centerCrop()
+                    .crossFade()
+                    .into(holder.imageView);
+        }
+
     }
 
     @Override
@@ -70,14 +83,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView title,summary,date;
-        RelativeLayout layout;
+        LinearLayout layout;
+        ImageView imageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title =(TextView) itemView.findViewById(R.id.news_title);
             summary =(TextView )itemView.findViewById(R.id.news_summary);
             date =(TextView )itemView.findViewById(R.id.news_time);
-            layout =(RelativeLayout) itemView.findViewById(R.id.news_layout);
+            layout =(LinearLayout) itemView.findViewById(R.id.news_layout);
+            imageView =(ImageView) itemView.findViewById(R.id.news_image);
 
         }
     }

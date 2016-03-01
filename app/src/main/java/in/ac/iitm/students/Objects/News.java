@@ -6,7 +6,19 @@ package in.ac.iitm.students.Objects;
 public class News {
 
     int id ;
-    String title,summary,content;
+    String title;
+    String summary;
+    String content;
+
+    public String getImageerl() {
+        return imageerl;
+    }
+
+    public void setImageerl(String imageerl) {
+        this.imageerl = imageerl;
+    }
+
+    String imageerl;
 
     public Long getDate() {
         return date;
@@ -18,14 +30,14 @@ public class News {
 
     Long date;
 
-    public News(int id, String title, String summary, String content,Long date) {
+    public News(int id, String title, String summary, String content, String imageerl, Long date) {
         this.id = id;
         this.title = title;
         this.summary = summary;
         this.content = content;
+        this.imageerl = imageerl;
         this.date = date;
     }
-
 
     public int getId() {
         return id;
