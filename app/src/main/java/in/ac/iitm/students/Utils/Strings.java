@@ -9,4 +9,5 @@ public class Strings {
     public static String HOSTEl ="hostel";
     public static String DEPARTMENT ="department";
     public static String LOGEDIN ="logedin";
+    public static String FEEDBACK ="feedbackjsonstring";
 }

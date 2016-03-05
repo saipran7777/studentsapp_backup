@@ -12,7 +12,7 @@
 
         <item android:id="@+id/nav_gallery" android:icon="@drawable/ic_photo_black_24dp"
             android:title="Gallery" />
-        <item android:id="@+id/nav_feedback" android:icon="@drawable/ic_feedback_black_24dp"
+        <item android:id="@+id/nav_feedback" android:icon="@drawable/ic_error_black_24dp"
             android:title="FeedBack" />
         <item android:id="@+id/nav_fifthestate" android:icon="@drawable/ic_google_news_xxl" android:title="The Fifth Estate"/>
 

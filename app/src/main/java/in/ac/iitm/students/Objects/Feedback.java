@@ -10,12 +10,20 @@ public class Feedback {
     int anonymous;
     int solved;
     float avg_anger;
-    String title, content, created_at;
+    String title, content, created_at,user_name;
     ArrayList<Tag> tags;
     ArrayList<FeedbackComment> comments;
 
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
     public Feedback(int id, int anonymous, int solved, float avg_anger, String title, String content,
-                    String created_at, ArrayList<Tag> tags, ArrayList<FeedbackComment> comments) {
+                    String created_at, String user_name, ArrayList<Tag> tags, ArrayList<FeedbackComment> comments) {
         this.id = id;
         this.anonymous = anonymous;
         this.solved = solved;
@@ -23,6 +31,7 @@ public class Feedback {
         this.title = title;
         this.content = content;
         this.created_at = created_at;
+        this.user_name = UppercaseFirstLetters(user_name.toLowerCase());
         this.tags = tags;
         this.comments = comments;
     }
@@ -130,7 +139,7 @@ public class Feedback {
         String content;
 
         public FeedbackComment(String user_name, String created_at, String content) {
-            this.user_name = user_name;
+            this.user_name = UppercaseFirstLetters(user_name.toLowerCase());
             this.created_at = created_at;
             this.content = content;
         }
@@ -158,5 +167,21 @@ public class Feedback {
         public void setContent(String content) {
             this.content = content;
         }
+    }
+    public static String UppercaseFirstLetters(String str)
+    {
+        boolean prevWasWhiteSp = true;
+        char[] chars = str.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (Character.isLetter(chars[i])) {
+                if (prevWasWhiteSp) {
+                    chars[i] = Character.toUpperCase(chars[i]);
+                }
+                prevWasWhiteSp = false;
+            } else {
+                prevWasWhiteSp = Character.isWhitespace(chars[i]);
+            }
+        }
+        return new String(chars);
     }
 }

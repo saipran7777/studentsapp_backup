@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:chip="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="12dp"
+    android:layout_marginLeft="12dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:elevation="5dp">
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:mrl_rippleColor="@color/ripplecolor">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/feedback_layout">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="news_title"
+                    android:id="@+id/feedback_title"
+                    android:textSize="19dp"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/user"
+                    android:layout_toEndOf="@+id/user" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/feedback_time"
+                    android:textSize="10dp"
+                    android:textColor="@color/colorAccent"
+                    android:layout_below="@+id/feedback_title"
+                    android:layout_alignLeft="@+id/feedback_title"
+                    android:layout_alignStart="@+id/feedback_title" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Medium Text"
+                    android:id="@+id/feedback_summary"
+                    android:maxLines = "5"
+                    android:ellipsize="end"
+                    android:textSize="14dp"
+                    android:layout_below="@+id/feedback_user"
+                    android:layout_alignLeft="@+id/user"
+                    android:layout_alignStart="@+id/user" />
+
+                <com.plumillonforge.android.chipview.ChipView
+                    android:id="@+id/chipview"
+                    chip:chip_background="@color/colorAccent"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/feedback_summary"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="21dp"
+                    android:layout_marginEnd="21dp"
+                   android:paddingTop="10dp"/>
+
+                <LinearLayout
+                    android:id="@+id/feedback_andry"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/chipview"
+                    android:layout_gravity="bottom">
+
+                    <ImageView
+                        android:layout_width="@dimen/angwidth"
+                        android:layout_height="@dimen/angwidth"
+                        android:id="@+id/ang1"
+                        android:layout_marginRight="1dp"/>
+                    <ImageView
+                        android:layout_width="@dimen/angwidth"
+                        android:layout_height="@dimen/angwidth"
+                        android:id="@+id/ang2"
+                        android:layout_marginRight="1dp"/>
+                    <ImageView
+                        android:layout_width="@dimen/angwidth"
+                        android:layout_height="@dimen/angwidth"
+                        android:layout_marginRight="1dp"
+                        android:id="@+id/ang3"/>
+                    <ImageView
+                        android:layout_width="@dimen/angwidth"
+                        android:layout_height="@dimen/angwidth"
+                        android:layout_marginRight="1dp"
+                        android:id="@+id/ang4"/>
+                    <ImageView
+                        android:layout_width="@dimen/angwidth"
+                        android:layout_height="@dimen/angwidth"
+                        android:layout_marginRight="1dp"
+                        android:id="@+id/ang5"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:id="@+id/user"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/anonymous" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/feedback_user"
+                    android:visibility="visible"
+                    android:layout_below="@+id/feedback_time"
+                    android:layout_alignLeft="@+id/feedback_time"
+                    android:layout_alignStart="@+id/feedback_time"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12dp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+</android.support.v7.widget.CardView>

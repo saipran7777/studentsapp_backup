@@ -11,4 +11,5 @@
     <dimen name="list_item__contact_imageview_size">55dp</dimen>
     <dimen name="profileCardMargin">20dp</dimen>
     <dimen name="profilecardmargintop">20dp</dimen>
+    <dimen name="angwidth">20dp</dimen>
 </resources>
