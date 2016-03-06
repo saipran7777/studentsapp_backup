@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#5D4037</color>
     <color name="colorAccent">#303F9F</color>
     <color name="window_background">#FFF5F5F5</color>
+    <color name="comment_background">#4e0f8e82</color>
 <color name="ripplecolor">#cacaca</color>
 </resources>

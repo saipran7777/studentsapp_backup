@@ -15,7 +15,13 @@ public class Feedback {
     ArrayList<FeedbackComment> comments;
 
     public String getUser_name() {
-        return user_name;
+        if (user_name==null){
+            return  "";
+        }else {
+            return  UppercaseFirstLetters(user_name.toLowerCase());
+
+        }
+
     }
 
     public void setUser_name(String user_name) {
@@ -145,7 +151,13 @@ public class Feedback {
         }
 
         public String getUser_name() {
-            return user_name;
+            if (user_name==null){
+                return  "";
+            }else {
+                return  UppercaseFirstLetters(user_name.toLowerCase());
+
+            }
+
         }
 
         public void setUser_name(String user_name) {

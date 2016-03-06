@@ -12,4 +12,5 @@
     <dimen name="profileCardMargin">20dp</dimen>
     <dimen name="profilecardmargintop">20dp</dimen>
     <dimen name="angwidth">20dp</dimen>
+    <dimen name="feedback_margin">15dp</dimen>
 </resources>

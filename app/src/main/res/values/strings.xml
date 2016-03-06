@@ -31,6 +31,11 @@
     <string name="LoginURl">https://students.iitm.ac.in/studentsapp/login/index.php</string>
     <string name="urlImage">https://photos.iitm.ac.in/byroll.php?roll=</string>
     <string name="fifthettateurl">http://www.t5eiitm.org/wp-json/wp/v2/posts</string>
+
+
     <string name="feedbackurl">https://students.iitm.ac.in/studentsapp/feedbackportal/getposts.php</string>
+    <string name="feedbackcommenturel">https://students.iitm.ac.in/studentsapp/feedbackportal/comment.php</string>
+
     <string name="title_activity_news">NewsActivity</string>
+
 </resources>

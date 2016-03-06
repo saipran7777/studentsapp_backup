@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/feedback_margin"
+        android:layout_marginLeft="@dimen/feedback_margin"
+        android:layout_marginRight="@dimen/feedback_margin">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/linearLayout3"
+            android:layout_below="@+id/comment_recycler"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/comment_background">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#ffff"/>
+            <android.support.v7.widget.AppCompatEditText
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_toStartOf="@+id/fab_post_comment"
+                android:layout_toLeftOf="@+id/fab_post_comment"
+                android:layout_alignTop="@+id/fab_post_comment"
+                android:id="@+id/edit_comment"
+                android:layout_alignBottom="@+id/fab_post_comment"
+                android:paddingLeft="8dp" />
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:elevation="2dp"
+                android:layout_margin="4dp"
+                android:src="@drawable/ic_insert_comment_white_24dp"
+                android:layout_gravity="bottom"
+                android:id="@+id/fab_post_comment"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

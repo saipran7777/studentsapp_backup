@@ -27,7 +27,7 @@
         android:id="@+id/textView8"
         android:layout_below="@+id/imageView4"
         android:layout_centerHorizontal="true"
-        android:textColor="#b91616"
+        android:textColor="#2f004c"
         android:textStyle="bold"
         android:textSize="30dp" />
 </RelativeLayout>
