@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Anonymous"
+            android:id="@+id/anonymous"
+            android:checked="false"
+            android:textColor="#ffffff" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:theme="@style/AppTheme.edittext"
+            android:layout_marginBottom="5dp">
+
+            <EditText
+                android:textColorHint="#ffffff"
+                android:id="@+id/feedback_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Title"
+                android:textIsSelectable="false"
+                android:textColor="#ffffff" />
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            app:theme="@style/AppTheme.edittext">
+
+            <EditText
+                android:textColorHint="#ffffff"
+                android:textColor="#ffffff"
+                android:id="@+id/feedback_content"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:hint="Content"
+                android:gravity="top"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Tags"
+            android:id="@+id/Tags"
+            android:layout_marginTop="5dp"
+            android:textColor="#ffffff" />
+
+        <in.ac.iitm.students.Views.FlowLayout
+            android:id="@+id/flow_layout"
+            app:horizontal_spacing="3dp"
+            app:vertical_spacing="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#0bffffff"
+            android:padding="3dp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Angry Level"
+            android:id="@+id/textView"
+            android:layout_marginTop="5dp"
+            android:textColor="#ffffff" />
+
+        <LinearLayout
+            android:id="@+id/feedback_andry"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chipview"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:layout_width="@dimen/angwidthpost"
+                android:layout_height="@dimen/angwidthpost"
+                android:id="@+id/ang1"
+                android:layout_marginRight="1dp"
+                android:src="@drawable/emoji_angry"
+
+                android:tintMode="src_atop" />
+            <ImageView
+                android:layout_width="@dimen/angwidthpost"
+                android:layout_height="@dimen/angwidthpost"
+                android:id="@+id/ang2"
+                android:layout_marginRight="1dp"
+                android:src="@drawable/emoji_angry"
+                android:tintMode="src_atop"
+                android:tint="#35ff0000" />
+            <ImageView
+                android:layout_width="@dimen/angwidthpost"
+                android:layout_height="@dimen/angwidthpost"
+                android:layout_marginRight="1dp"
+                android:id="@+id/ang3"
+                android:src="@drawable/emoji_angry"
+                android:adjustViewBounds="false"
+                android:tint="#5aff0000"
+                android:tintMode="src_atop" />
+            <ImageView
+                android:layout_width="@dimen/angwidthpost"
+                android:layout_height="@dimen/angwidthpost"
+                android:layout_marginRight="1dp"
+                android:id="@+id/ang4"
+                android:src="@drawable/emoji_angry"
+                android:tint="#76ff0000"
+                android:tintMode="src_atop"
+                 />
+            <ImageView
+                android:layout_width="@dimen/angwidthpost"
+                android:layout_height="@dimen/angwidthpost"
+                android:layout_marginRight="1dp"
+                android:id="@+id/ang5"
+                android:src="@drawable/emoji_angry"
+                android:tint="#a9ff0000"
+                android:tintMode="src_atop"
+                android:longClickable="false"
+                 />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</ScrollView>
+
+</LinearLayout>

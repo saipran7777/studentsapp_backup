@@ -5,4 +5,20 @@
         <attr name="border_color" format="color" />
         <attr name="border_overlay" format="boolean" />
     </declare-styleable>
+        <declare-styleable name="TagCloudLinkView">
+            <attr name="tagLayoutColor" format="color" />
+            <attr name="tagTextColor" format="color" />
+            <attr name="tagTextSize" format="dimension" />
+            <attr name="isDeletable" format="boolean" />
+            <attr name="deletableTextColor" format="color" />
+            <attr name="deletableTextSize" format="dimension" />
+        </declare-styleable>
+    <declare-styleable name="ZoberTag">
+        <attr name="selected" format="boolean" />
+        <attr name="tag" format="string" />
+    </declare-styleable>
+    <declare-styleable name="FlowLayout">
+        <attr name="horizontal_spacing" format="dimension" />
+        <attr name="vertical_spacing" format="dimension" />
+    </declare-styleable>
 </resources>

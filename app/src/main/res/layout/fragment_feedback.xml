@@ -6,6 +6,9 @@
     android:layout_height="match_parent">
 
     <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/feedback_contentView"
         android:layout_width="fill_parent"
@@ -19,6 +22,49 @@
             android:layout_height="match_parent" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
+        <io.codetail.widget.RevealFrameLayout
+            android:id="@+id/reveal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignEnd="@+id/search"
+            android:layout_alignLeft="@+id/search"
+            android:layout_alignRight="@+id/search"
+            android:layout_alignStart="@+id/search"
+            android:layout_below="@+id/search"
+
+            >
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="6dp"
+                android:layout_margin="@dimen/fab_margin"
+                android:id="@+id/cardView"
+                android:visibility="visible">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#af523838">
+
+                 <include layout="@layout/post_post_content"></include>
+
+                    <ImageButton
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/imageButton_close"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/ic_close_red_50_24dp" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+        </io.codetail.widget.RevealFrameLayout>
+
+    </RelativeLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabadd"
         android:layout_width="wrap_content"
@@ -26,4 +72,11 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add_white_24dp" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabtic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_done_white_24dp" />
 </android.support.design.widget.CoordinatorLayout>

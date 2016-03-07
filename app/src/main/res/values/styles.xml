@@ -43,5 +43,15 @@
     <style name="AppTheme.Login" parent="AppTheme.NoActionBar">
 
     </style>
+    <style name="AppTheme.edittext" parent="AppTheme">
+        <item name="colorAccent">#ffff</item>
+        <item name="android:textColorHint">#ffff</item>
+
+        <item name="colorControlNormal">@color/colorAccent</item>
+
+    </style>
+
+
+
 
 </resources>

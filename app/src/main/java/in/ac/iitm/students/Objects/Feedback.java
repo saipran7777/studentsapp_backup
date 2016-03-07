@@ -10,9 +10,33 @@ public class Feedback {
     int anonymous;
     int solved;
     float avg_anger;
-    String title, content, created_at,user_name;
+    String title, content, created_at,user_name,rollno;
     ArrayList<Tag> tags;
     ArrayList<FeedbackComment> comments;
+
+    public String getRollno() {
+        return rollno;
+    }
+
+    public void setRollno(String rollno) {
+        this.rollno = rollno;
+    }
+
+    public Feedback(int id, int anonymous, int solved, float avg_anger, String title, String content,
+                    String created_at, String user_name, String rollno, ArrayList<Tag> tags, ArrayList<FeedbackComment> comments) {
+        this.id = id;
+        this.anonymous = anonymous;
+        this.solved = solved;
+        this.avg_anger = avg_anger;
+        this.title = title;
+
+        this.content = content;
+        this.created_at = created_at;
+        this.user_name = user_name;
+        this.rollno = rollno;
+        this.tags = tags;
+        this.comments = comments;
+    }
 
     public String getUser_name() {
         if (user_name==null){
@@ -28,19 +52,7 @@ public class Feedback {
         this.user_name = user_name;
     }
 
-    public Feedback(int id, int anonymous, int solved, float avg_anger, String title, String content,
-                    String created_at, String user_name, ArrayList<Tag> tags, ArrayList<FeedbackComment> comments) {
-        this.id = id;
-        this.anonymous = anonymous;
-        this.solved = solved;
-        this.avg_anger = avg_anger;
-        this.title = title;
-        this.content = content;
-        this.created_at = created_at;
-        this.user_name = UppercaseFirstLetters(user_name.toLowerCase());
-        this.tags = tags;
-        this.comments = comments;
-    }
+
 
     public int getId() {
         return id;
@@ -142,12 +154,21 @@ public class Feedback {
     public class FeedbackComment {
         String user_name;
         String created_at;
-        String content;
+        String content,rollno;
 
-        public FeedbackComment(String user_name, String created_at, String content) {
-            this.user_name = UppercaseFirstLetters(user_name.toLowerCase());
+        public FeedbackComment(String user_name, String created_at, String content, String rollno) {
+            this.user_name = user_name;
             this.created_at = created_at;
             this.content = content;
+            this.rollno = rollno;
+        }
+
+        public String getRollno() {
+            return rollno;
+        }
+
+        public void setRollno(String rollno) {
+            this.rollno = rollno;
         }
 
         public String getUser_name() {
