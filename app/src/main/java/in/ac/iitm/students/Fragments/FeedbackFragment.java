@@ -72,6 +72,8 @@ public class FeedbackFragment extends Fragment {
     CheckBox checkBox;
     EditText content, title;
     ArrayList<ImageView> angryimageViews;
+    public static ArrayList<Feedback> feedbackList;
+    public static FeedbackAdapter feedbackAdapter;
     public FeedbackFragment() {
         // Required empty public constructor
     }
@@ -251,7 +253,6 @@ public class FeedbackFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        ArrayList<Feedback> feedbackList = new ArrayList<Feedback>();
 
                         //  Log.d("response",response);
                         try {
@@ -259,7 +260,8 @@ public class FeedbackFragment extends Fragment {
                                     new TypeToken<ArrayList<Feedback>>() {
                                     }.getType());
                             // Log.d("content",Float.toString(feedbackList.get(0).getAvg_anger()));
-                            recyclerView.setAdapter(new FeedbackAdapter(getActivity(), feedbackList));
+                            feedbackAdapter =new FeedbackAdapter(getActivity(), feedbackList);
+                            recyclerView.setAdapter(feedbackAdapter);
                             Utils.saveprefString(Strings.FEEDBACK, response, getActivity());
                             //Log.d("Location Name",locationList.get(1).getDepname());
                             swipeRefreshLayout.setRefreshing(false);
@@ -274,7 +276,6 @@ public class FeedbackFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        ArrayList<Feedback> feedbackList = new ArrayList<Feedback>();
                         String response = Utils.getprefString(Strings.FEEDBACK, context);
                         if (response == "") {
                             Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
@@ -283,7 +284,9 @@ public class FeedbackFragment extends Fragment {
                                     new TypeToken<ArrayList<Feedback>>() {
                                     }.getType());
                             //   Log.d("content",Float.toString(feedbackList.get(0).getAvg_anger()));
-                            recyclerView.setAdapter(new FeedbackAdapter(getActivity(), feedbackList));
+                            feedbackAdapter =new FeedbackAdapter(getActivity(), feedbackList);
+
+                            recyclerView.setAdapter(feedbackAdapter);
                         }
 
                         //  Toast.makeText(MainActivity.this,error.toString(),Toast.LENGTH_LONG).show();

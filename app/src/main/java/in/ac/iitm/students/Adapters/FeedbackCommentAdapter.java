@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.Map;
 
 import in.ac.iitm.students.FeedbackActivity;
+import in.ac.iitm.students.Fragments.FeedbackFragment;
 import in.ac.iitm.students.Objects.Feedback;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.Utils.Strings;
@@ -61,15 +62,20 @@ public class FeedbackCommentAdapter extends  RecyclerView.Adapter<RecyclerView.V
     Feedback feedback;
     Context context;
     final Gson gson = new Gson();
+    FeedbackAdapter feedbackAdapter;
+    int feedbackPosition;
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
 
-    public FeedbackCommentAdapter(Context context,Feedback feedback) {
+    public FeedbackCommentAdapter(Context context,Feedback feedback
+                                 ) {
         this.feedback=feedback;
         this.commentArrayList = feedback.getComments();
         this.context = context;
+        this.feedbackPosition =feedbackPosition;
+        this.feedbackAdapter =feedbackAdapter;
     }
 
     @Override
@@ -472,6 +478,11 @@ public class FeedbackCommentAdapter extends  RecyclerView.Adapter<RecyclerView.V
                                 commentArrayList.remove(position);
                                 feedback.setComments(commentArrayList);
                                 notifyDataSetChanged();
+
+                               // ArrayList<Feedback> feed= FeedbackFragment.feedbackList;
+                               // feed.add(feedbackPosition,feedback);
+                               // feedbackAdapter.setFeedbacks(feed);
+                               // feedbackAdapter.notifyDataSetChanged();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

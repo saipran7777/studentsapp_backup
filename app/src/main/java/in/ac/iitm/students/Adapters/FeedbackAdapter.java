@@ -53,7 +53,7 @@ import in.ac.iitm.students.Utils.Utils;
  * Created by arunp on 03-Mar-16.
  */
 public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHolder> {
-    ArrayList<Feedback> feedbacks;
+    public ArrayList<Feedback> feedbacks;
     Context context;
     final Gson gson = new Gson();
 
@@ -61,7 +61,12 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
         this.feedbacks = feedbacks;
         this.context = context;
     }
-
+    public void setFeedbacks(ArrayList<Feedback> feedbacks){
+        this.feedbacks =feedbacks;
+    }
+    public ArrayList<Feedback> getFeedbacks(){
+        return feedbacks;
+    }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
@@ -132,6 +137,7 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
             public void onClick(View v) {
                 Intent intent = new Intent(context, FeedbackActivity.class);
                 intent.putExtra("data", gson.toJson(feedback));
+               // intent.putExtra("rtyu",FeedbackAdapter.this);
                 context.startActivity(intent);
             }
         });

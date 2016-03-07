@@ -43,6 +43,8 @@ public class FeedbackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
         String data = getIntent().getExtras().getString("data");
+      //  FeedbackAdapter feedbackAdapteradapter =(FeedbackAdapter) getIntent().getSerializableExtra("adapter");
+      //  String position = getIntent().getExtras().getString("position");
 
         Feedback feedback = gson.fromJson(data,Feedback.class);
         recyclerView =(RecyclerView) findViewById(R.id.comment_recycler);
