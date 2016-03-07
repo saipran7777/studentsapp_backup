@@ -40,7 +40,7 @@
                 app:cardElevation="6dp"
                 android:layout_margin="@dimen/fab_margin"
                 android:id="@+id/cardView"
-                android:visibility="visible">
+                android:visibility="invisible">
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

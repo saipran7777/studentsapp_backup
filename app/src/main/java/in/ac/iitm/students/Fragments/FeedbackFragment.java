@@ -240,8 +240,12 @@ public class FeedbackFragment extends Fragment {
 
     void FetchData() {
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.feedback_contentView);
-        swipeRefreshLayout.setRefreshing(true);
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });        RequestQueue queue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 getString(R.string.feedbackurl),
                 new Response.Listener<String>() {

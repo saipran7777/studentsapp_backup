@@ -36,6 +36,8 @@
     <string name="feedbackurl">https://students.iitm.ac.in/studentsapp/feedbackportal/getposts.php</string>
     <string name="feedbackcommenturel">https://students.iitm.ac.in/studentsapp/feedbackportal/comment.php</string>
     <string name="feedbackposturel">https://students.iitm.ac.in/studentsapp/feedbackportal/postposts.php</string>
+<string name="feedbackpostremoveurel">https://students.iitm.ac.in/studentsapp/feedbackportal/delpost.php</string>
+    <string name="feedbackpostcommentremoveurel">https://students.iitm.ac.in/studentsapp/feedbackportal/delcomment.php</string>
 
     <string name="title_activity_news">NewsActivity</string>
     <string name="add_tag">Add Tag</string>

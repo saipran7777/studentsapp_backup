@@ -1,5 +1,6 @@
 package in.ac.iitm.students.Adapters;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -86,7 +88,7 @@ public class FeedbackCommentAdapter extends  RecyclerView.Adapter<RecyclerView.V
     }
 
     @Override
-    public void onBindViewHolder (RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder (RecyclerView.ViewHolder holder, final int position) {
         if(holder instanceof HeaderViewHolder) {
             HeaderViewHolder headerHolder = (HeaderViewHolder) holder;
             headerHolder.summary.setText(Html.fromHtml(feedback.getContent()).toString());
@@ -141,9 +143,22 @@ public class FeedbackCommentAdapter extends  RecyclerView.Adapter<RecyclerView.V
 
         } else if(holder instanceof GenericViewHolder) {
             GenericViewHolder currentItem = (GenericViewHolder) holder;
-            Feedback.FeedbackComment comment =commentArrayList.get(position-1);
+            final Feedback.FeedbackComment comment =commentArrayList.get(position-1);
             currentItem.content.setText(comment.getContent());
             currentItem.username.setText(comment.getUser_name());
+            if (comment.getRollno().toLowerCase().trim().equals(Utils.getprefString(Strings.ROLLNO, context).toLowerCase().trim())) {
+               currentItem.imageButtonremove.setVisibility(View.VISIBLE);
+            } else {
+                currentItem.imageButtonremove.setVisibility(View.GONE);
+            }
+
+            currentItem.imageButtonremove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removePostComment(comment.getId(),position-1);
+
+                }
+            });
             try {
                 Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(comment.getCreated_at());
                 currentItem.date.setText(getlongtoago(date.getTime()));
@@ -216,9 +231,10 @@ public class FeedbackCommentAdapter extends  RecyclerView.Adapter<RecyclerView.V
 
     class GenericViewHolder extends RecyclerView.ViewHolder {
         public TextView content, date,username;
-
+        ImageButton imageButtonremove;
         public GenericViewHolder (View itemView) {
             super (itemView);
+            imageButtonremove=(ImageButton) itemView.findViewById(R.id.imageButton_close);
             content = (TextView) itemView.findViewById(R.id.comment_content);
             date = (TextView) itemView.findViewById(R.id.comment_time);
             username =(TextView) itemView.findViewById(R.id.commetn_name);
@@ -437,4 +453,50 @@ public class FeedbackCommentAdapter extends  RecyclerView.Adapter<RecyclerView.V
         queue.add(stringRequest);
     }
 
+
+    public void removePostComment(final int id, final int position) {
+        final ProgressDialog progress = new ProgressDialog(context);
+        progress.setCancelable(false);
+        progress.setMessage("removing comment  ...");
+        progress.show();
+        RequestQueue queue = Volley.newRequestQueue(context);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                context.getString(R.string.feedbackpostcommentremoveurel),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("response",response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (jsonObject.getInt("success") == 1) {
+                                commentArrayList.remove(position);
+                                feedback.setComments(commentArrayList);
+                                notifyDataSetChanged();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        progress.dismiss();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+                        progress.dismiss();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("authorise", "ds");
+                params.put("commentid", Integer.toString(id));
+
+                return params;
+            }
+        };
+
+        queue.add(stringRequest);
+    }
 }

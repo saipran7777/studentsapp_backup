@@ -10,12 +10,17 @@ public class Feedback {
     int anonymous;
     int solved;
     float avg_anger;
-    String title, content, created_at,user_name,rollno;
+    String title, content, created_at, user_name, rollno;
     ArrayList<Tag> tags;
     ArrayList<FeedbackComment> comments;
 
     public String getRollno() {
-        return rollno;
+        if (rollno == null) {
+            return "";
+        } else {
+            return UppercaseFirstLetters(rollno.toLowerCase());
+
+        }
     }
 
     public void setRollno(String rollno) {
@@ -39,10 +44,10 @@ public class Feedback {
     }
 
     public String getUser_name() {
-        if (user_name==null){
-            return  "";
-        }else {
-            return  UppercaseFirstLetters(user_name.toLowerCase());
+        if (user_name == null) {
+            return "";
+        } else {
+            return user_name.toLowerCase();
 
         }
 
@@ -51,7 +56,6 @@ public class Feedback {
     public void setUser_name(String user_name) {
         this.user_name = user_name;
     }
-
 
 
     public int getId() {
@@ -126,7 +130,7 @@ public class Feedback {
         this.comments = comments;
     }
 
-    public class Tag{
+    public class Tag {
         String tagname_name;
         int tag_id;
 
@@ -151,20 +155,36 @@ public class Feedback {
             this.tag_id = tag_id;
         }
     }
+
     public class FeedbackComment {
         String user_name;
         String created_at;
-        String content,rollno;
+        String content, rollno;
+        int id;
 
-        public FeedbackComment(String user_name, String created_at, String content, String rollno) {
+        public FeedbackComment(String user_name, String created_at, String content, String rollno,int id) {
             this.user_name = user_name;
             this.created_at = created_at;
             this.content = content;
             this.rollno = rollno;
+            this.id =id;
         }
 
         public String getRollno() {
-            return rollno;
+            if (rollno == null) {
+                return "";
+            } else {
+                return rollno.toLowerCase();
+
+            }
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
         }
 
         public void setRollno(String rollno) {
@@ -172,10 +192,10 @@ public class Feedback {
         }
 
         public String getUser_name() {
-            if (user_name==null){
-                return  "";
-            }else {
-                return  UppercaseFirstLetters(user_name.toLowerCase());
+            if (user_name == null) {
+                return "";
+            } else {
+                return UppercaseFirstLetters(user_name.toLowerCase());
 
             }
 
@@ -201,8 +221,8 @@ public class Feedback {
             this.content = content;
         }
     }
-    public static String UppercaseFirstLetters(String str)
-    {
+
+    public static String UppercaseFirstLetters(String str) {
         boolean prevWasWhiteSp = true;
         char[] chars = str.toCharArray();
         for (int i = 0; i < chars.length; i++) {

@@ -1,22 +1,37 @@
 package in.ac.iitm.students.Adapters;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.plumillonforge.android.chipview.Chip;
 import com.plumillonforge.android.chipview.ChipView;
 import com.plumillonforge.android.chipview.ChipViewAdapter;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -24,7 +39,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import in.ac.iitm.students.FeedbackActivity;
 import in.ac.iitm.students.Objects.Feedback;
@@ -54,8 +71,24 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         final Feedback feedback = feedbacks.get(position);
+        Log.d("efsdfsdfsdf fuck it",feedback.getRollno());
+
+        if (feedback.getRollno().toLowerCase().trim().equals(Utils.getprefString(Strings.ROLLNO, context).toLowerCase().trim())) {
+            holder.imageButtonclose.setVisibility(View.VISIBLE);
+        } else {
+            holder.imageButtonclose.setVisibility(View.GONE);
+        }
+
+        holder.imageButtonclose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removePost(feedback.getId(),position);
+
+            }
+        });
+
         holder.summary.setText(Html.fromHtml(feedback.getContent()).toString());
         holder.title.setText(feedback.getTitle());
         try {
@@ -75,31 +108,30 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
         holder.chipDefault.setChipList(chipList);
 
 
-        if(feedback.getAnonymous()==1){
+        if (feedback.getAnonymous() == 1) {
             Glide.with(context)
                     .load(R.drawable.anonymous)
                     .centerCrop()
                     .crossFade()
-                    .into( holder.imageView);
+                    .into(holder.imageView);
             holder.username.setVisibility(View.INVISIBLE);
 
-        }
-        else {
+        } else {
             Glide.with(context)
                     .load(R.drawable.user)
                     .centerCrop()
                     .crossFade()
-                    .into( holder.imageView);
+                    .into(holder.imageView);
             holder.username.setText(feedback.getUser_name());
             holder.username.setVisibility(View.VISIBLE);
 
         }
-        setAngry(holder.angry,feedback.getAvg_anger());
+        setAngry(holder.angry, feedback.getAvg_anger());
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, FeedbackActivity.class);
-                intent.putExtra("data",gson.toJson(feedback));
+                intent.putExtra("data", gson.toJson(feedback));
                 context.startActivity(intent);
             }
         });
@@ -113,21 +145,24 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView title, summary, date,username;
-        LinearLayout layout,angry;
+        public TextView title, summary, date, username;
+        LinearLayout  angry;
+        RelativeLayout layout;
         ChipView chipDefault;
-        ImageView imageView ;
+        ImageView imageView;
+        ImageButton imageButtonclose;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.feedback_title);
             summary = (TextView) itemView.findViewById(R.id.feedback_summary);
             date = (TextView) itemView.findViewById(R.id.feedback_time);
-            layout = (LinearLayout) itemView.findViewById(R.id.feedback_layout);
+            layout = (RelativeLayout) itemView.findViewById(R.id.feedback_layout);
             chipDefault = (ChipView) itemView.findViewById(R.id.chipview);
-            angry =(LinearLayout) itemView.findViewById(R.id.feedback_andry);
+            angry = (LinearLayout) itemView.findViewById(R.id.feedback_andry);
             imageView = (ImageView) itemView.findViewById(R.id.user);
-            username =(TextView) itemView.findViewById(R.id.feedback_user);
+            username = (TextView) itemView.findViewById(R.id.feedback_user);
+            imageButtonclose = (ImageButton) itemView.findViewById(R.id.imageButton_close);
 
         }
     }
@@ -263,23 +298,68 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
         }
     }
 
-    public void setAngry(View view,float level){
-        ArrayList<ImageView> imageViews =new ArrayList<ImageView>();
+    public void setAngry(View view, float level) {
+        ArrayList<ImageView> imageViews = new ArrayList<ImageView>();
         imageViews.add((ImageView) view.findViewById(R.id.ang1));
         imageViews.add((ImageView) view.findViewById(R.id.ang2));
         imageViews.add((ImageView) view.findViewById(R.id.ang3));
         imageViews.add((ImageView) view.findViewById(R.id.ang4));
         imageViews.add((ImageView) view.findViewById(R.id.ang5));
-        int alevel =(int) level;
-        for(int i=0;i<5;i++){
-        if (alevel>=i+1){
-            Glide.with(context)
-                    .load(R.drawable.emoji_angry)
-                    .centerCrop()
-                    .crossFade()
-                    .into(imageViews.get(i));
+        int alevel = (int) level;
+        for (int i = 0; i < 5; i++) {
+            if (alevel >= i + 1) {
+                Glide.with(context)
+                        .load(R.drawable.emoji_angry)
+                        .centerCrop()
+                        .crossFade()
+                        .into(imageViews.get(i));
 
+            }
         }
-        }
+    }
+
+    public void removePost(final int id, final int position) {
+        final ProgressDialog progress = new ProgressDialog(context);
+        progress.setCancelable(false);
+        progress.setMessage("removing posting  ...");
+        progress.show();
+        RequestQueue queue = Volley.newRequestQueue(context);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                context.getString(R.string.feedbackpostremoveurel),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("response",response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (jsonObject.getInt("success") == 1) {
+                                feedbacks.remove(position);
+                                notifyDataSetChanged();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        progress.dismiss();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+                        progress.dismiss();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("authorise", "ds");
+                params.put("postid", Integer.toString(id));
+
+                return params;
+            }
+        };
+
+        queue.add(stringRequest);
     }
 }
