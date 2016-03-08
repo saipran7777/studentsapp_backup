@@ -200,6 +200,9 @@ public class MainActivity extends AppCompatActivity
         }else if(id==R.id.nav_academiccalender){
             fragmentTransaction.replace(R.id.fragment_container, new AcademicCalendarFragment());
 
+        }else if (id == R.id.nav_netaccess) {
+            Intent intent = new Intent(this,NetaccessActivity.class);
+            startActivity(intent);
         }else if (id == R.id.nav_share) {
 
         } else if (id == R.id.web_site) {

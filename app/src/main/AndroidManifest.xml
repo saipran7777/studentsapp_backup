@@ -14,10 +14,18 @@
     <uses-permission android:name="org.interiitsports.interiit.permission.C2D_MESSAGE" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+        <receiver android:name=".NetaccessActivity$switchButtonListener" />
+        <receiver android:name=".NetaccessActivity$WifiReceiver" >
+            <intent-filter android:priority="100" >
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -107,7 +115,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.ac.iitm.students.MainActivity" />
         </activity>
-        <activity android:name=".FeedbackActivity"></activity>
+        <activity android:name=".FeedbackActivity"
+            android:label="Feedback Portal"
+            />
+        <activity android:name=".NetaccessActivity"
+            android:label="NetAccess"
+
+            ></activity>
     </application>
 
 </manifest>
