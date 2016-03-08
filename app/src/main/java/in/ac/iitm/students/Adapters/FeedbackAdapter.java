@@ -137,7 +137,7 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
             public void onClick(View v) {
                 Intent intent = new Intent(context, FeedbackActivity.class);
                 intent.putExtra("data", gson.toJson(feedback));
-               // intent.putExtra("rtyu",FeedbackAdapter.this);
+                intent.putExtra("position",position);
                 context.startActivity(intent);
             }
         });

@@ -1,10 +1,13 @@
 package in.ac.iitm.students.Adapters;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -13,10 +16,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.util.Util;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.plumillonforge.android.chipview.Chip;
@@ -69,13 +75,13 @@ public class FeedbackCommentAdapter extends  RecyclerView.Adapter<RecyclerView.V
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
 
-    public FeedbackCommentAdapter(Context context,Feedback feedback
+    public FeedbackCommentAdapter(Context context,Feedback feedback,int feedbackPosition
                                  ) {
         this.feedback=feedback;
         this.commentArrayList = feedback.getComments();
         this.context = context;
         this.feedbackPosition =feedbackPosition;
-        this.feedbackAdapter =feedbackAdapter;
+       // this.feedbackAdapter =feedbackAdapter;
     }
 
     @Override
@@ -135,6 +141,12 @@ public class FeedbackCommentAdapter extends  RecyclerView.Adapter<RecyclerView.V
 
             }
             setAngry(headerHolder.angry,feedback.getAvg_anger());
+            headerHolder.angry.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showAngerDialoge();
+                }
+            });
             //footer
         } else if(holder instanceof FooterViewHolder) {
             final FooterViewHolder footerHolder = (FooterViewHolder) holder;
@@ -421,6 +433,14 @@ public class FeedbackCommentAdapter extends  RecyclerView.Adapter<RecyclerView.V
                                 }.getType());
                         commentArrayList =feedbackComments;
                         feedback.setComments(feedbackComments);
+                        ArrayList<Feedback> feed
+                                = (ArrayList<Feedback>) gson.fromJson(Utils.getprefString(Strings.FEEDBACK, context),
+                                new TypeToken<ArrayList<Feedback>>() {
+                                }.getType());
+                        feed.remove(feedbackPosition);
+                        feed.add(feedbackPosition,feedback);
+                        Utils.saveprefString(Strings.FEEDBACK, gson.toJson(feed), context);
+
                         commentEdittext.setText("");
                         notifyDataSetChanged();
                         final InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -479,9 +499,15 @@ public class FeedbackCommentAdapter extends  RecyclerView.Adapter<RecyclerView.V
                                 feedback.setComments(commentArrayList);
                                 notifyDataSetChanged();
 
-                               // ArrayList<Feedback> feed= FeedbackFragment.feedbackList;
-                               // feed.add(feedbackPosition,feedback);
-                               // feedbackAdapter.setFeedbacks(feed);
+                               ArrayList<Feedback> feed
+                                 = (ArrayList<Feedback>) gson.fromJson(Utils.getprefString(Strings.FEEDBACK, context),
+                                        new TypeToken<ArrayList<Feedback>>() {
+                                        }.getType());
+                                feed.remove(feedbackPosition);
+                               feed.add(feedbackPosition,feedback);
+                                Utils.saveprefString(Strings.FEEDBACK, gson.toJson(feed), context);
+
+                                // feedbackAdapter.setFeedbacks(feed);
                                // feedbackAdapter.notifyDataSetChanged();
                             }
                         } catch (JSONException e) {
@@ -509,5 +535,91 @@ public class FeedbackCommentAdapter extends  RecyclerView.Adapter<RecyclerView.V
         };
 
         queue.add(stringRequest);
+    }
+    public void submitAnger(final int postid, final int anger){
+        RequestQueue queue = Volley.newRequestQueue(context);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                context.getString(R.string.feedbackangersubmiturl),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("response",response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (jsonObject.getInt("success") == 1) {
+
+                                // feedbackAdapter.setFeedbacks(feed);
+                                // feedbackAdapter.notifyDataSetChanged();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                       // progress.dismiss();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+                       // progress.dismiss();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("authorise", "ds");
+                params.put("postid", Integer.toString(postid));
+                params.put("angerlevel", Integer.toString(anger));
+                params.put("rollno", Utils.getprefString(Strings.ROLLNO,context).toUpperCase());
+
+
+                return params;
+            }
+        };
+
+        queue.add(stringRequest);
+    }
+    public void showAngerDialoge(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        // Set the dialog title
+        final int[] chosen = {0};
+        CharSequence ratingaraay[] = { "1", "2" ,"3", "4","5"};
+        builder.setTitle("Express your anger level")
+                .setSingleChoiceItems(ratingaraay, -1,  new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                    chosen[0] =arg1+1;
+                   // Log.d("chose",Integer.toString(arg1));
+
+                    }
+                })
+                // Set the action buttons
+                .setPositiveButton("submit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        Log.d("choseen dfasdfas ",Integer.toString(id));
+                        if(chosen[0] ==0){
+                            Toast.makeText(context,"select one angry level ",Toast.LENGTH_LONG);
+                        }else {
+                            submitAnger(feedback.getId(),chosen[0]);
+                            dialog.dismiss();
+                        }
+
+                        // User clicked OK, so save the mSelectedItems results somewhere
+                        // or return them to the component that opened the dialog
+
+                    }
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog dialog  =builder.create();
+        dialog.show();
     }
 }

@@ -91,7 +91,15 @@ public class FeedbackFragment extends Fragment {
                 FetchData();
             }
         });
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
 
+                swipeRefreshLayout.setRefreshing(true);
+                FetchData();
+
+            }
+        });
         recyclerView = (RecyclerView) v.findViewById(R.id.feedback_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
@@ -170,7 +178,6 @@ public class FeedbackFragment extends Fragment {
             }
         });
 
-        FetchData();
         angryimageViews = new ArrayList<ImageView>();
         angryimageViews.add((ImageView) v.findViewById(R.id.ang1));
         angryimageViews.add((ImageView) v.findViewById(R.id.ang2));
@@ -240,14 +247,26 @@ public class FeedbackFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ArrayList<Feedback> feed
+                = (ArrayList<Feedback>) gson.fromJson(Utils.getprefString(Strings.FEEDBACK, context),
+                new TypeToken<ArrayList<Feedback>>() {
+                }.getType());
+        Log.d("comments",gson.toJson( feed.get(0).getComments()));
+        if (feedbackAdapter!=null){
+            feedbackAdapter.setFeedbacks(feed);
+            feedbackAdapter.notifyDataSetChanged();
+        }
+
+       // FetchData();
+    }
+
     void FetchData() {
-        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.feedback_contentView);
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-            }
-        });        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        swipeRefreshLayout.setRefreshing(true);
+
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 getString(R.string.feedbackurl),
                 new Response.Listener<String>() {
@@ -264,11 +283,12 @@ public class FeedbackFragment extends Fragment {
                             recyclerView.setAdapter(feedbackAdapter);
                             Utils.saveprefString(Strings.FEEDBACK, response, getActivity());
                             //Log.d("Location Name",locationList.get(1).getDepname());
-                            swipeRefreshLayout.setRefreshing(false);
                         } catch (JsonSyntaxException e) {
                             Toast.makeText(context, "no posts", Toast.LENGTH_LONG).show();
                             e.printStackTrace();
+
                         }
+                        swipeRefreshLayout.setRefreshing(false);
 
 
                     }
@@ -278,7 +298,6 @@ public class FeedbackFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         String response = Utils.getprefString(Strings.FEEDBACK, context);
                         if (response == "") {
-                            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
                         } else {
                             feedbackList = (ArrayList<Feedback>) gson.fromJson(Utils.getprefString(Strings.FEEDBACK, context),
                                     new TypeToken<ArrayList<Feedback>>() {
@@ -288,6 +307,7 @@ public class FeedbackFragment extends Fragment {
 
                             recyclerView.setAdapter(feedbackAdapter);
                         }
+                        Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
 
                         //  Toast.makeText(MainActivity.this,error.toString(),Toast.LENGTH_LONG).show();
                         swipeRefreshLayout.setRefreshing(false);
