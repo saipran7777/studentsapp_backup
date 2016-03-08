@@ -254,7 +254,7 @@ public class FeedbackFragment extends Fragment {
                 = (ArrayList<Feedback>) gson.fromJson(Utils.getprefString(Strings.FEEDBACK, context),
                 new TypeToken<ArrayList<Feedback>>() {
                 }.getType());
-        Log.d("comments",gson.toJson( feed.get(0).getComments()));
+       // Log.d("comments",gson.toJson( feed.get(0).getComments()));
         if (feedbackAdapter!=null){
             feedbackAdapter.setFeedbacks(feed);
             feedbackAdapter.notifyDataSetChanged();

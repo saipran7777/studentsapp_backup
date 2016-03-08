@@ -30,6 +30,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import in.ac.iitm.students.Fragments.AcademicCalendarFragment;
 import in.ac.iitm.students.Fragments.EventsFragment;
 import in.ac.iitm.students.Fragments.FeedbackFragment;
 import in.ac.iitm.students.Fragments.GalleryFragment;
@@ -195,6 +196,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if(id==R.id.nav_feedback){
             fragmentTransaction.replace(R.id.fragment_container, new FeedbackFragment());
+
+        }else if(id==R.id.nav_academiccalender){
+            fragmentTransaction.replace(R.id.fragment_container, new AcademicCalendarFragment());
 
         }else if (id == R.id.nav_share) {
 
