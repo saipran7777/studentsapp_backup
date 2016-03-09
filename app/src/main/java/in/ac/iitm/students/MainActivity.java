@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -17,6 +20,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -188,7 +192,7 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
         if (id == R.id.nav_contacts) {
-            
+
             fragmentTransaction.replace(R.id.fragment_container, new ImportantContacts());
         } else if (id == R.id.nav_map) {
             hideViews();
@@ -204,11 +208,37 @@ public class MainActivity extends AppCompatActivity
         }else if(id==R.id.nav_academiccalender){
             fragmentTransaction.replace(R.id.fragment_container, new AcademicCalendarFragment());
 
-        }else if (id == R.id.nav_netaccess) {
+        }else if(id==R.id.nav_reportbug){
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "institutewebops@gmail.com", null));
+
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+
+            String debug_info = "\n\n\n Device information \n -------------------------------";
+            try{
+                debug_info += "\n Netaccess App version: " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            }catch (PackageManager.NameNotFoundException nne){
+                Log.e("About", "Name not found exception");
+            }
+            debug_info += "\n Android Version: " + Build.VERSION.RELEASE + " (API " + Build.VERSION.SDK_INT+ ") \n Model (and product): " + android.os.Build.MODEL + " ("+ android.os.Build.PRODUCT + ") \n Device: " + android.os.Build.DEVICE;
+
+            emailIntent.putExtra(Intent.EXTRA_TEXT, debug_info);
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "IITM Students App: Feedback / bug report");
+            startActivity(Intent.createChooser(emailIntent, "Send feedback / bug report"));
+        }
+        else if (id == R.id.nav_netaccess) {
             Intent intent = new Intent(this,NetaccessActivity.class);
             startActivity(intent);
         }else if (id == R.id.nav_share) {
+            String string ="<a ref=\"https://play.google.com/store/apps/details?id="+getPackageName()+"\">IITM Students App</a>" ;
+            Intent s = new Intent(android.content.Intent.ACTION_SEND);
 
+            s.setType("text/plain");
+            s.putExtra(Intent.EXTRA_SUBJECT, "SAmple");
+            s.putExtra(Intent.EXTRA_TEXT, string);
+
+            startActivity(Intent.createChooser(s, "Quote"));
         } else if (id == R.id.web_site) {
             String url="https://students.iitm.ac.in/";
             Uri webpage = Uri.parse(url);
