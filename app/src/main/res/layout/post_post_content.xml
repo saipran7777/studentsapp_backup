@@ -25,15 +25,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:theme="@style/AppTheme.edittext"
-            android:layout_marginBottom="5dp">
+            android:layout_marginBottom="5dp"
+            >
 
             <EditText
-                android:textColorHint="#ffffff"
                 android:id="@+id/feedback_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Title"
                 android:textIsSelectable="false"
+                android:textColorHint="#ffffff"
                 android:textColor="#ffffff" />
 
         </android.support.design.widget.TextInputLayout>

@@ -17,6 +17,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity
     public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     RelativeLayout profilePic ;
+    DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_events);
+        navigationView.setCheckedItem(R.id.nav_map);
         View headerView = navigationView.getHeaderView(0);
         TextView name = (TextView) headerView.findViewById(R.id.dispname) ;
         TextView rollno = (TextView) headerView.findViewById(R.id.navrollno) ;
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity
 
         FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, new EventsFragment());
+        fragmentTransaction.add(R.id.fragment_container, new MapFragment());
         fragmentTransaction.commit();
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(MainActivity.this));
         if (checkPlayServices()) {
@@ -128,7 +130,10 @@ public class MainActivity extends AppCompatActivity
         });*/
 
     }
-
+    public void openDrawer()
+    {
+        drawer.openDrawer(Gravity.LEFT);
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -183,13 +188,12 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
         if (id == R.id.nav_contacts) {
+            
             fragmentTransaction.replace(R.id.fragment_container, new ImportantContacts());
         } else if (id == R.id.nav_map) {
             hideViews();
             fragmentTransaction.replace(R.id.fragment_container, new MapFragment());
-        } else if (id == R.id.nav_events) {
-            fragmentTransaction.replace(R.id.fragment_container, new EventsFragment());
-        } else if (id == R.id.nav_gallery) {
+        } else if  (id == R.id.nav_gallery) {
             fragmentTransaction.replace(R.id.fragment_container, new GalleryFragment());
         }else if (id==R.id.nav_fifthestate){
             fragmentTransaction.replace(R.id.fragment_container, new TheFifthEstateFragment());

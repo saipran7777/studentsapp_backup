@@ -103,6 +103,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         myView =(CardView) v.findViewById(R.id.cardSearch);
         ImageButton Bsearch=(ImageButton) v.findViewById(R.id.buttonSearch);
+        ImageButton Bnav=(ImageButton) v.findViewById(R.id.imageButton2);
+        Bnav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).openDrawer();
+            }
+        });
+
+
 
         final int[] x = new int[1];
         final int[] y = new int[1];
