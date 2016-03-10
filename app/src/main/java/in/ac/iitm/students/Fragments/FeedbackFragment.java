@@ -108,6 +108,7 @@ public class FeedbackFragment extends Fragment {
         fabtic = (FloatingActionButton) v.findViewById(R.id.fabtic);
         fabtic.hide();
         myView = (CardView) v.findViewById(R.id.cardView);
+
         content = (EditText) v.findViewById(R.id.feedback_content);
         title = (EditText) v.findViewById(R.id.feedback_title);
 

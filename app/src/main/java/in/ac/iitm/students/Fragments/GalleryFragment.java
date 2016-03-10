@@ -207,19 +207,16 @@ public class GalleryFragment extends Fragment {
 
         return v;
     }
+
+
     private void showFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
-    public String getStringImage(Bitmap bmp){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        return encodedImage;
-    }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -325,111 +322,7 @@ public class GalleryFragment extends Fragment {
 
         return images;
     }
-    private void uploadImage(){
-        //Showing the progress dialog
-        final ProgressDialog loading = ProgressDialog.show(getActivity(),"Uploading...","Please wait...",false,false);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, getString(R.string.ImageUploadUrl),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String s) {
-                        //Disimissing the progress dialog
-                        loading.dismiss();
-                        Log.d("response",s);
-                        //Showing toast message of the response
-                        Toast.makeText(getActivity(), s , Toast.LENGTH_LONG).show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        //Dismissing the progress dialog
-                        loading.dismiss();
 
-                        //Showing toast
-                        Toast.makeText(getActivity(), volleyError.getMessage().toString(), Toast.LENGTH_LONG).show();
-                    }
-                }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                //Converting Bitmap to String
-                try {
-                    bitmap = Glide.
-                            with(getActivity()).
-                            load(filePath).
-                            asBitmap().
-                            into(100, 100). // Width and height
-                            get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-                String image = getStringImage(bitmap);
-                File myFile = new File(String.valueOf(filePath));
-
-                //Getting Image Name
-               // String name = editTextName.getText().toString().trim();
-
-                //Creating parameters
-                Map<String,String> params = new Hashtable<String, String>();
-
-                //Adding parameters
-                params.put("fileToUpload", "kk");
-                params.put("submit", "hh");
-
-                //returning parameters
-                return params;
-            }
-        };
-
-        //Creating a Request Queue
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-
-        //Adding request to the queue
-        requestQueue.add(stringRequest);
-    }
-
-    private void uploadFile(Uri filePath, String fileName) {
-       InputStream inputStream;
-        //  getActivity().getContentResolver().openInputStream(filePath);
-
-        // inputStream = new FileInputStream(new File(filePath));
-        //  Log.d("file path",filePath);
-        // byte[] data=IOUtil.readFile(filePath);
-        try {
-          // data = IOUtils.toByteArray(inputStream);
-            inputStream = getActivity().getContentResolver().openInputStream(filePath);;
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            byte[] b = new byte[1024];
-            int bytesRead =inputStream.read(b);
-            while ( bytesRead  != -1) {
-                bos.write(b, 0, bytesRead);
-                bytesRead= inputStream.read(b);
-            }
-            byte[] bytes = bos.toByteArray();
-
-
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(getString(R.string.ImageUploadUrl));
-
-            InputStreamBody inputStreamBody = new InputStreamBody(new ByteArrayInputStream(bytes), fileName);
-            MultipartEntity multipartEntity = new MultipartEntity();
-            multipartEntity.addPart("fileToUpload", inputStreamBody);
-            httpPost.setEntity(multipartEntity);
-
-            HttpResponse httpResponse = httpClient.execute(httpPost);
-
-            // Handle response back from script.
-            if(httpResponse != null) {
-                Log.d("response",httpResponse.toString());
-             //   httpResponse.toString();
-            } else { // Error, no response.
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     public  class upload extends AsyncTask<String, Void, String>{
         final ProgressDialog ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...",	"Uploading Image ...", true);
         @Override

@@ -18,7 +18,7 @@ public class SplashScreen extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        new CountDownTimer(3000, 1000) {
+        new CountDownTimer(1000, 1000) {
             public void onFinish() {
                 Intent startActivity =  new Intent(SplashScreen.this,LoginActivity.class);
                 if (Utils.getprefBool(Strings.LOGEDIN,SplashScreen.this)){

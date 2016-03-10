@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    tools:context="in.ac.iitm.students.GameRadarProfileEditActivity"
+    android:orientation="vertical"
+    android:background="#302424">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            >
+            <in.ac.iitm.students.Views.CircleImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/upload_image"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/gameradar_upload" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                app:theme="@style/AppTheme.edittext">
+
+                <EditText
+                    android:textColorHint="#ffffff"
+                    android:textColor="#ffffff"
+                    android:id="@+id/gameradar_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Name"
+                    android:gravity="top"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                app:theme="@style/AppTheme.edittext">
+
+                <EditText
+                    android:textColorHint="#ffffff"
+                    android:textColor="#ffffff"
+                    android:id="@+id/gameradar_rollno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Roll No"
+                    android:gravity="top"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                app:theme="@style/AppTheme.edittext">
+
+                <EditText
+                    android:textColorHint="#ffffff"
+                    android:textColor="#ffffff"
+                    android:id="@+id/gameradar_phoneno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone Number"
+                    android:gravity="top"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                app:theme="@style/AppTheme.edittext">
+
+                <EditText
+                    android:textColorHint="#ffffff"
+                    android:textColor="#ffffff"
+                    android:id="@+id/gameradar_hostal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Hostal"
+                    android:gravity="top"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                app:theme="@style/AppTheme.edittext">
+
+                <EditText
+                    android:textColorHint="#ffffff"
+                    android:textColor="#ffffff"
+                    android:id="@+id/gameradar_roomno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Room Number"
+                    android:gravity="top"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create GameRadar Account"
+                android:id="@+id/gameradar_button" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

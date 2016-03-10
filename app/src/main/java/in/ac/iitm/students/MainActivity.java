@@ -10,6 +10,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
@@ -39,6 +41,7 @@ import in.ac.iitm.students.Fragments.AcademicCalendarFragment;
 import in.ac.iitm.students.Fragments.EventsFragment;
 import in.ac.iitm.students.Fragments.FeedbackFragment;
 import in.ac.iitm.students.Fragments.GalleryFragment;
+import in.ac.iitm.students.Fragments.GameradarFragment;
 import in.ac.iitm.students.Fragments.MapFragment;
 import in.ac.iitm.students.Fragments.ImportantContacts;
 import in.ac.iitm.students.Fragments.TheFifthEstateFragment;
@@ -150,15 +153,36 @@ public class MainActivity extends AppCompatActivity
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
     }
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+
         } else {
-            super.onBackPressed();
+           // super.onBackPressed();
         }
+
+
+        if (doubleBackToExitPressedOnce) {
+          //  super.onBackPressed();
+            finish();
+            return;
+        }else {
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please press BACK again to exit", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 2000);
+        }
+
+
     }
 
     @Override
@@ -207,6 +231,10 @@ public class MainActivity extends AppCompatActivity
 
         }else if(id==R.id.nav_academiccalender){
             fragmentTransaction.replace(R.id.fragment_container, new AcademicCalendarFragment());
+
+        }else if(id==R.id.nav_gameradar){
+            Intent intent = new Intent(this,GameRadarProfileEditActivity.class);
+            startActivity(intent);
 
         }else if(id==R.id.nav_reportbug){
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "institutewebops@gmail.com", null));

@@ -10,4 +10,5 @@ public class Strings {
     public static String DEPARTMENT ="department";
     public static String LOGEDIN ="logedin";
     public static String FEEDBACK ="feedbackjsonstring";
+    public static String GCMTOKEN = "gcmtoken";
 }

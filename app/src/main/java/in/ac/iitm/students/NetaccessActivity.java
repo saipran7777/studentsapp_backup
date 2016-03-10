@@ -189,7 +189,7 @@ public class NetaccessActivity extends AppCompatActivity {
         ldap = (EditText) findViewById(R.id.edit_text__pass);
         Button approve = (Button) findViewById(R.id.button_login);
 
-        rollno.setText(getprefString("rollno", this));
+        rollno.setText(getprefString("rollnonetaccess", this));
         ldap.setText(getprefString("ldap", this));
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -356,7 +356,7 @@ public class NetaccessActivity extends AppCompatActivity {
                 requestURL1 = "https://netaccess.iitm.ac.in/account/login";
                 requestURL2 = "https://netaccess.iitm.ac.in/account/approve";
                 params.put("userPassword", getprefString("ldap", MyApplication.getContext()));
-                params.put("userLogin", getprefString("rollno", MyApplication.getContext()));
+                params.put("userLogin", getprefString("rollnonetaccess", MyApplication.getContext()));
                 params.put("duration", "1");
                 params.put("approveBtn", "");
 
@@ -387,7 +387,7 @@ public class NetaccessActivity extends AppCompatActivity {
                 // Add your data
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
                 nameValuePairs.add(new BasicNameValuePair("userPassword", getprefString("ldap", MyApplication.getContext())));
-                nameValuePairs.add(new BasicNameValuePair("userLogin", getprefString("rollno", MyApplication.getContext())));
+                nameValuePairs.add(new BasicNameValuePair("userLogin", getprefString("rollnonetaccess", MyApplication.getContext())));
                 Log.d("dfg", getprefString("ldap", MyApplication.getContext()));
                 List<NameValuePair> nameValuePairsap = new ArrayList<NameValuePair>(2);
                 nameValuePairsap.add(new BasicNameValuePair("duration", "1"));

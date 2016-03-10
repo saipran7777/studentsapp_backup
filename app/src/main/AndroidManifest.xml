@@ -21,12 +21,13 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <receiver android:name=".NetaccessActivity$switchButtonListener" />
-        <receiver android:name=".NetaccessActivity$WifiReceiver" >
-            <intent-filter android:priority="100" >
+        <receiver android:name=".NetaccessActivity$WifiReceiver">
+            <intent-filter android:priority="100">
                 <action android:name="android.net.wifi.STATE_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -40,6 +41,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".GameRadarProfileEditActivity"
+            android:label="GameRadar Profile"
+           >
+
         </activity>
         <activity
             android:name=".ProfileActivity"
@@ -116,13 +124,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.ac.iitm.students.MainActivity" />
         </activity>
-        <activity android:name=".FeedbackActivity"
-            android:label="Feedback Portal"
-            />
-        <activity android:name=".NetaccessActivity"
-            android:label="NetAccess"
-
-            ></activity>
+        <activity
+            android:name=".FeedbackActivity"
+            android:label="Feedback Portal" />
+        <activity
+            android:name=".NetaccessActivity"
+            android:label="NetAccess" />
     </application>
 
 </manifest>

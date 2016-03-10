@@ -28,6 +28,8 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.Utils.Strings;
+import in.ac.iitm.students.Utils.Utils;
 
 import java.io.IOException;
 
@@ -88,6 +90,7 @@ public class RegistrationIntentService extends IntentService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
+        Utils.saveprefString(Strings.GCMTOKEN,token,getBaseContext());
         // Add custom implementation, as needed.
         Log.d("hai there", "i got it");
 

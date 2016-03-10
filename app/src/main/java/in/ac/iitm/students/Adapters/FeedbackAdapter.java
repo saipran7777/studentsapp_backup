@@ -156,7 +156,7 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
         RelativeLayout layout;
         ChipView chipDefault;
         ImageView imageView;
-        ImageButton imageButtonclose;
+        ImageView imageButtonclose;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -168,7 +168,7 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
             angry = (LinearLayout) itemView.findViewById(R.id.feedback_andry);
             imageView = (ImageView) itemView.findViewById(R.id.user);
             username = (TextView) itemView.findViewById(R.id.feedback_user);
-            imageButtonclose = (ImageButton) itemView.findViewById(R.id.imageButton_close);
+            imageButtonclose = (ImageView) itemView.findViewById(R.id.imageButton_close);
 
         }
     }
