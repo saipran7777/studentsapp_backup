@@ -45,6 +45,7 @@ import java.util.Map;
 
 import in.ac.iitm.students.Adapters.FeedbackAdapter;
 import in.ac.iitm.students.Objects.Feedback;
+import in.ac.iitm.students.Objects.GameRadarUser;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.Utils.Strings;
 import in.ac.iitm.students.Utils.Utils;
@@ -108,10 +109,8 @@ public class FeedbackFragment extends Fragment {
         fabtic = (FloatingActionButton) v.findViewById(R.id.fabtic);
         fabtic.hide();
         myView = (CardView) v.findViewById(R.id.cardView);
-
         content = (EditText) v.findViewById(R.id.feedback_content);
         title = (EditText) v.findViewById(R.id.feedback_title);
-
         checkBox = (CheckBox) v.findViewById(R.id.anonymous);
 
         final SupportAnimator[] animator = new SupportAnimator[1];

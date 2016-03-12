@@ -625,7 +625,7 @@ public class NetaccessActivity extends AppCompatActivity {
                     test.setText("wrong password ");
                 } else {
                     test.setText(loginform.text());
-                    saveString("rollno", rollno.getText().toString()); // Storing string
+                    saveString("rollnonetaccess", rollno.getText().toString()); // Storing string
                     saveString("ldap", ldap.getText().toString());
                     saveBool("have_name", true);
                     if (!getBool("notifcation_login")) createNotification(NetaccessActivity.this);
@@ -635,7 +635,7 @@ public class NetaccessActivity extends AppCompatActivity {
                     test.setText("wrong password ");
                 } else {
                     test.setText(loginform.text());
-                    saveString("rollno", rollno.getText().toString()); // Storing string
+                    saveString("rollnonetaccess", rollno.getText().toString()); // Storing string
                     saveString("ldap", ldap.getText().toString());
                     saveBool("have_name", true);
 

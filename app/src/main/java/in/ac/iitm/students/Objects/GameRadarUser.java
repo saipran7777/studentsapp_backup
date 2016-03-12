@@ -1,8 +1,11 @@
 package in.ac.iitm.students.Objects;
 
+import java.util.HashMap;
+
 /**
  * Created by arunp on 10-Mar-16.
  */
+
 public class GameRadarUser {
     String  name;
     String rollno;
@@ -11,7 +14,9 @@ public class GameRadarUser {
     String roomno;
     String gcmtoken;
     String dpurl;
-
+    String id;
+    HashMap<String,Boolean> games;
+    HashMap<String,Boolean> posts;
     public GameRadarUser(String name, String rollno, String phoneno, String hostal, String roomno, String gcmtoken, String dpurl) {
         this.name = name;
         this.rollno = rollno;
@@ -20,6 +25,17 @@ public class GameRadarUser {
         this.roomno = roomno;
         this.gcmtoken = gcmtoken;
         this.dpurl = dpurl;
+    }
+    public GameRadarUser() {
+
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -62,6 +78,22 @@ public class GameRadarUser {
         this.roomno = roomno;
     }
 
+    public HashMap<String, Boolean> getGames() {
+        return games;
+    }
+
+    public void setGames(HashMap<String, Boolean> games) {
+        this.games = games;
+    }
+
+    public HashMap<String, Boolean> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(HashMap<String, Boolean> posts) {
+        this.posts = posts;
+    }
+
     public String getGcmtoken() {
         return gcmtoken;
     }
@@ -77,4 +109,6 @@ public class GameRadarUser {
     public void setDpurl(String dpurl) {
         this.dpurl = dpurl;
     }
+
+
 }

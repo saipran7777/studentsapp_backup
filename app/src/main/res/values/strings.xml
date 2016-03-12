@@ -31,7 +31,7 @@
     <string name="LoginURl">https://students.iitm.ac.in/studentsapp/login/index.php</string>
     <string name="urlImage">https://photos.iitm.ac.in/byroll.php?roll=</string>
     <string name="fifthettateurl">http://www.t5eiitm.org/wp-json/wp/v2/posts</string>
-     <string name="gameradar_user_dp_upload">https://students.iitm.ac.in/studentsapp/gameradar/upload.php</string>
+    <string name="gameradar_user_dp_upload">https://students.iitm.ac.in/studentsapp/gameradar/upload.php</string>
     <string name="gameradar_user_dp">https://students.iitm.ac.in/studentsapp/gameradar/userdp/</string>
 
 
@@ -42,7 +42,7 @@
     <string name="feedbackpostcommentremoveurel">https://students.iitm.ac.in/studentsapp/feedbackportal/delcomment.php</string>
     <string name="feedbackangersubmiturl">https://students.iitm.ac.in/studentsapp/feedbackportal/setangrylevel.php</string>
     <string name="firebaseurl">https://brilliant-fire-4073.firebaseio.com</string>
-
+<string name="gcmserverkey">AIzaSyBDdn_zOsDvz7YBZzHUJkSjEO4Md8otdJA</string>
     <string name="title_activity_news">NewsActivity</string>
     <string name="add_tag">Add Tag</string>
 

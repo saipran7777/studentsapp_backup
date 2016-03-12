@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/card_margin"
-    android:layout_marginRight="@dimen/card_margin"
-    android:layout_marginBottom="8dp"
-    android:layout_marginTop="8dp">
+    android:paddingLeft="@dimen/card_margin"
+    android:paddingRight="@dimen/card_margin"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp">
 <android.support.v7.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:elevation="20dp">
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
+    android:layout_marginTop="3dp"
+    app:cardElevation="6dp"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -64,14 +70,15 @@
                 android:layout_height="45dp"
                 android:src="@drawable/ic_add_white_24dp"
                 android:layout_marginTop="27dp"
-                android:id="@+id/gameradar_button_add"/>
+                android:id="@+id/gameradar_button_add"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="5/10"
-                android:id="@+id/textView9"
+                android:id="@+id/gameradar_capacity"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="3dp" />
         </LinearLayout>
@@ -81,13 +88,15 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="1dp"
-        android:elevation="20dp">
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginBottom="3dp"
+        app:cardElevation="4dp"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/gameradar_players_container"></LinearLayout>
+            android:id="@+id/gameradar_players_container"
+            android:orientation="vertical"></LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

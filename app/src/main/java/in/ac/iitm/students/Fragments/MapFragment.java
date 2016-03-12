@@ -1,8 +1,16 @@
 package in.ac.iitm.students.Fragments;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -63,25 +71,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     GoogleMap map;
     AutoCompleteTextView search;
     final Gson gson = new Gson();
-    Boolean inRequest=false;
+    Boolean inRequest = false;
     RecyclerView mRecyclerView;
-    public static Marker  marker;
+    public static Marker marker;
     CardView myView = null;
-    public static int xCard,yCard;
+    public static int xCard, yCard;
+    public Context context;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_maps, container, false);
         ((MainActivity) getActivity()).hideViews();
-
+        context = getActivity();
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapview);
-        search =(AutoCompleteTextView) v.findViewById(R.id.searcheditText) ;
+        search = (AutoCompleteTextView) v.findViewById(R.id.searcheditText);
         mapView.onCreate(savedInstanceState);
         // Gets to GoogleMap from the MapView and does initialization stuff
         map = mapView.getMap();
         map.setPadding(0, 70, 0, 0);
         MapsInitializer.initialize(this.getActivity());
-        map.setMyLocationEnabled(true);
+
+        if (shouldAskPermission()) {
+            askpermission(getActivity());
+        } else map.setMyLocationEnabled(true);
+
 
         LatLng position = new LatLng(12.9884871, 80.2355152);
         marker = map.addMarker(new MarkerOptions().position(position)
@@ -101,16 +115,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
         rlp.setMargins(0, 0, 30, 30);
 
-        myView =(CardView) v.findViewById(R.id.cardSearch);
-        ImageButton Bsearch=(ImageButton) v.findViewById(R.id.buttonSearch);
-        ImageButton Bnav=(ImageButton) v.findViewById(R.id.imageButton2);
+        myView = (CardView) v.findViewById(R.id.cardSearch);
+        ImageButton Bsearch = (ImageButton) v.findViewById(R.id.buttonSearch);
+        ImageButton Bnav = (ImageButton) v.findViewById(R.id.imageButton2);
         Bnav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).openDrawer();
+                ((MainActivity) getActivity()).openDrawer();
             }
         });
-
 
 
         final int[] x = new int[1];
@@ -129,7 +142,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 int dy = Math.max(cy, myView.getHeight() - cy);
                 float finalRadius = (float) Math.hypot(dx, dy);
                 animator[0] =
-                        ViewAnimationUtils.createCircularReveal(myView, x[0],0, 0,2*myView.getHeight());
+                        ViewAnimationUtils.createCircularReveal(myView, x[0], 0, 0, 2 * myView.getHeight());
                 animator[0].setInterpolator(new AccelerateDecelerateInterpolator());
                 animator[0].setDuration(500);
                 animator[0].start();
@@ -138,7 +151,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         search.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-               // Log.d(LOG_TAG, "x = " + motionEvent.getX() + " y = " + motionEvent.getY());
+                // Log.d(LOG_TAG, "x = " + motionEvent.getX() + " y = " + motionEvent.getY());
                 x[0] = (int) motionEvent.getX();
                 y[0] = (int) motionEvent.getY();
                 return false;
@@ -187,10 +200,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        //Log.d("sajdf",s.toString());
+                //Log.d("sajdf",s.toString());
 
 
-                if(!inRequest){
+                if (!inRequest) {
                     FetchData(s.toString());
                 }
 
@@ -242,7 +255,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    void FetchData(final String Word){
+    void FetchData(final String Word) {
 
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
@@ -252,10 +265,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("response",response);
-                        if(!response.equals("1")){
+                        Log.d("response", response);
+                        if (!response.equals("1")) {
 
-                            ArrayList<Location> locationList= null;
+                            ArrayList<Location> locationList = null;
                             try {
                                 locationList = (ArrayList<Location>) gson.fromJson(response,
                                         new TypeToken<ArrayList<Location>>() {
@@ -263,32 +276,71 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             } catch (JsonSyntaxException e) {
                                 e.printStackTrace();
                             }
-                            if(locationList!=null){
-                                mRecyclerView.setAdapter(new MapSearchAdapter(getActivity(),locationList,marker,map,myView));
+                            if (locationList != null) {
+                                mRecyclerView.setAdapter(new MapSearchAdapter(getActivity(), locationList, marker, map, myView));
                             }
                         }
-                        inRequest=false;
+                        inRequest = false;
                         //Log.d("Location Name",locationList.get(1).getDepname());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        inRequest=false;
-                        Toast.makeText(getActivity(),error.getMessage(),Toast.LENGTH_SHORT).show();
-                        Log.d("volley",error.toString());
+                        inRequest = false;
+                        Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d("volley", error.toString());
                         //  Toast.makeText(MainActivity.this,error.toString(),Toast.LENGTH_LONG).show();
                     }
-                }){
+                }) {
             @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("word",Word);
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("word", Word);
                 return params;
             }
         };
         queue.add(stringRequest);
-        return ;
+        return;
     }
 
+    private boolean shouldAskPermission() {
+
+        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+
+    }
+
+    public void askpermission(Activity activity) {
+        final int REQUEST_CODE_LOCATION = 2;
+
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Request missing location permission.
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_CODE_LOCATION);
+        } else {
+            // Location permission has been granted, continue as usual.
+            map.setMyLocationEnabled(true);
+
+        }
+
+    }
+
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions,
+                                           int[] grantResults) {
+        final int REQUEST_CODE_LOCATION = 2;
+
+        if (requestCode == REQUEST_CODE_LOCATION) {
+            if (grantResults.length == 1
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // success!
+                map.setMyLocationEnabled(true);
+
+            } else {
+                // Permission was denied or request was cancelled
+            }
+        }
+    }
 }

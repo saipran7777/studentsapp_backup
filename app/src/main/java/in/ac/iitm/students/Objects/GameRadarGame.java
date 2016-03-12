@@ -8,8 +8,16 @@ import java.util.ArrayList;
 public class GameRadarGame {
 GameRadarUser Admin;
 ArrayList<GameRadarUser> Players ;
-String Location,Game;
+String Location,Game,id;
 long StartTime,PostTime,capacity;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public GameRadarGame(GameRadarUser admin, ArrayList<GameRadarUser> players, String location,
                          String game, long startTime, long postTime, long capacity) {
@@ -20,6 +28,9 @@ long StartTime,PostTime,capacity;
         StartTime = startTime;
         PostTime = postTime;
         this.capacity = capacity;
+    }
+
+    public GameRadarGame() {
     }
 
     public GameRadarUser getAdmin() {

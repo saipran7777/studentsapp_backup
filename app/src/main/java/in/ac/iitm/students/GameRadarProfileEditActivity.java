@@ -18,8 +18,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.StringSignature;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+import com.google.gson.Gson;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -39,10 +44,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import in.ac.iitm.students.Objects.GameRadarGame;
 import in.ac.iitm.students.Objects.GameRadarUser;
 import in.ac.iitm.students.Utils.ScalingUtilities;
 import in.ac.iitm.students.Utils.Strings;
 import in.ac.iitm.students.Utils.Utils;
+import in.ac.iitm.students.Views.CircleImageView;
 
 public class GameRadarProfileEditActivity extends AppCompatActivity {
     private int PICK_IMAGE_REQUEST = 1;
@@ -54,6 +61,9 @@ public class GameRadarProfileEditActivity extends AppCompatActivity {
     int DESIREDHEIGHT = 350;
     Firebase myFirebaseRef;
     EditText name, rollno, phonenum, hostal, roomno;
+    final Gson gson = new Gson();
+    boolean alredy_have_account=false;
+    String dpimgurl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,19 +89,69 @@ public class GameRadarProfileEditActivity extends AppCompatActivity {
         rollno.setEnabled(false);
         name.setText(Utils.getprefString(Strings.NAME, this));
 
-        String dpurl = getString(R.string.gameradar_user_dp) +
-                Utils.getprefString(Strings.ROLLNO, GameRadarProfileEditActivity.this).toLowerCase() + ".jpg";
-        Log.d("dp url",dpurl);
-        Glide.with(this).load(dpurl)
-                .placeholder(R.drawable.upload_image)
-                .into(imageView);
+        String rollnostring = rollno.getText().toString().toLowerCase();
+        Firebase userRef = myFirebaseRef.child("game_radar").child("users").child(rollnostring);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+               Log.d("user data",dataSnapshot.getValue().toString()) ;
+                if(dataSnapshot.getValue()!=null){
+                    GameRadarUser gameRadarUser = dataSnapshot.getValue(GameRadarUser.class);
+                    Glide.with(GameRadarProfileEditActivity.this)
+                            .load(gameRadarUser.getDpurl())
+                            .centerCrop()
+                            .crossFade()
+                            .into(imageView);
+                    name.setText(gameRadarUser.getName());
+                    phonenum.setText(gameRadarUser.getPhoneno());
+                    hostal.setText(gameRadarUser.getHostal());
+                    roomno.setText(gameRadarUser.getRoomno());
+                    button.setText("Update Profile");
+                    alredy_have_account=true;
+                    dpimgurl = gameRadarUser.getDpurl();
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Utils.isEmpty(name) || Utils.isEmpty(rollno) || Utils.isEmpty(phonenum) || Utils.isEmpty(hostal) || Utils.isEmpty(roomno)) {
-                    Toast.makeText(GameRadarProfileEditActivity.this, "you haven't enterd everything", Toast.LENGTH_LONG).show();
-                } else {
+                if (alredy_have_account&&bitmap==null){
+
+                    final ProgressDialog ringProgressDialog = ProgressDialog
+                            .show(GameRadarProfileEditActivity.this, "Please wait ...", "updating profile ...", true);
+                    ringProgressDialog.setCancelable(false);
+                    ringProgressDialog.show();
+
+                    String rollnostring = rollno.getText().toString().toLowerCase();
+                    Firebase userRef = myFirebaseRef.child("game_radar").child("users").child(rollnostring);
+                    GameRadarUser gameRadarUser = new GameRadarUser(name.getText().toString(),
+                            rollnostring, phonenum.getText().toString(),
+                            hostal.getText().toString(), roomno.getText().toString(),
+                            Utils.getprefString(Strings.GCMTOKEN, GameRadarProfileEditActivity.this), dpimgurl);
+                    Utils.saveprefString(Strings.GAMERADARUSER,gson.toJson(gameRadarUser),getBaseContext());
+
+                    userRef.setValue(gameRadarUser, new Firebase.CompletionListener() {
+                        @Override
+                        public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                            ringProgressDialog.dismiss();
+                            Toast.makeText(GameRadarProfileEditActivity.this
+                                    , "you have successfully updated account", Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                    });
+                } else if ((bitmap==null)||Utils.isEmpty(name) || Utils.isEmpty(rollno) || Utils.isEmpty(phonenum)
+                        || Utils.isEmpty(hostal) || Utils.isEmpty(roomno)) {
+                    Toast.makeText(GameRadarProfileEditActivity.this, "you haven't enterd everything",
+                            Toast.LENGTH_LONG).show();
+                } else{
                     new upload().execute();
                 }
             }
@@ -160,13 +220,19 @@ public class GameRadarProfileEditActivity extends AppCompatActivity {
                             rollnostring, phonenum.getText().toString(),
                             hostal.getText().toString(), roomno.getText().toString(),
                             Utils.getprefString(Strings.GCMTOKEN, GameRadarProfileEditActivity.this), dpimgurl);
-
+                    Utils.saveprefString(Strings.GAMERADARUSER,gson.toJson(gameRadarUser),getBaseContext());
                     userRef.setValue(gameRadarUser, new Firebase.CompletionListener() {
                         @Override
                         public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                             ringProgressDialog.dismiss();
-                            Toast.makeText(GameRadarProfileEditActivity.this, "you have successfully created account", Toast.LENGTH_LONG).show();
+                            if(alredy_have_account){
+                                Toast.makeText(GameRadarProfileEditActivity.this
+                                        , "you have successfully updated account", Toast.LENGTH_LONG).show();
+                            }else {
+                                Toast.makeText(GameRadarProfileEditActivity.this, "you have successfully created account", Toast.LENGTH_LONG).show();
 
+                            }
+                            finish();
 
                         }
                     });

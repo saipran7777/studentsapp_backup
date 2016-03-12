@@ -41,14 +41,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".GameRadarProfileEditActivity"
-            android:label="GameRadar Profile"
-           >
-
-        </activity>
+            android:label="GameRadar Profile"></activity>
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_activityrofile"
@@ -130,6 +126,7 @@
         <activity
             android:name=".NetaccessActivity"
             android:label="NetAccess" />
+        <activity android:name=".GameRadarProfileActivity"></activity>
     </application>
 
 </manifest>
