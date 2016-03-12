@@ -46,7 +46,7 @@
                     android:layout_height="match_parent"
                     android:background="#af523838">
 
-                    <include layout="@layout/post_post_content"></include>
+                    <include layout="@layout/game_radar_post_content"></include>
 
                     <ImageButton
                         android:layout_width="40dp"

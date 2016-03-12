@@ -16,74 +16,91 @@
     android:layout_marginTop="3dp"
     app:cardElevation="6dp"
     >
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:weightSum="100">
-        <in.ac.iitm.students.Views.CircleImageView
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_marginLeft="17dp"
-            android:src="@drawable/user"
-            android:id="@+id/gameradar_admin_dp"
-            />
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="100"
-            android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingTop="15dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Football"
-                android:id="@+id/gameradar_game" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="location"
-                android:id="@+id/gameradar_location"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="1dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="time"
-                android:id="@+id/gameradar_time" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:weightSum="100"
+            android:visibility="visible">
             <in.ac.iitm.students.Views.CircleImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:src="@drawable/ic_add_white_24dp"
-                android:layout_marginTop="27dp"
-                android:id="@+id/gameradar_button_add"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_marginLeft="17dp"
+                android:src="@drawable/user"
+                android:id="@+id/gameradar_admin_dp"
                 />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="100"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingTop="15dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="5/10"
-                android:id="@+id/gameradar_capacity"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="3dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Football"
+                    android:id="@+id/gameradar_game" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="location"
+                    android:id="@+id/gameradar_location"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="1dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="time"
+                    android:id="@+id/gameradar_time" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+                <in.ac.iitm.students.Views.CircleImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/join_game"
+                    android:layout_marginTop="27dp"
+                    android:id="@+id/gameradar_button_add"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="5/10"
+                    android:id="@+id/gameradar_capacity"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="3dp" />
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/button_trash"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_trash"
+            android:padding="4dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp" />
+
+    </RelativeLayout>
 </android.support.v7.widget.CardView>
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"

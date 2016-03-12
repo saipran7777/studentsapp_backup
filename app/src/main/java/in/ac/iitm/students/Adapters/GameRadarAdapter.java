@@ -1,7 +1,9 @@
 package in.ac.iitm.students.Adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,11 +38,13 @@ public class GameRadarAdapter extends RecyclerView.Adapter<GameRadarAdapter.View
     Context context;
     Firebase myFirebaseRef;
     Gson gson = new Gson();
+    String myRollno ;
 
     public GameRadarAdapter(ArrayList<GameRadarGame> gameRadarGames, Context context) {
         this.gameRadarGames = gameRadarGames;
         this.context = context;
         myFirebaseRef = new Firebase(context.getString(R.string.firebaseurl));
+        myRollno= Utils.getprefString(Strings.ROLLNO, context).toLowerCase();
     }
 
     @Override
@@ -59,6 +63,19 @@ public class GameRadarAdapter extends RecyclerView.Adapter<GameRadarAdapter.View
         final GameRadarUser admin = gameRadarGame.getAdmin();
         if(gameRadarGame.getPlayers()==null) gameRadarGame.setPlayers(new ArrayList<GameRadarUser>());  //to prevent null pointer exceptoin
         final ArrayList<GameRadarUser> players = gameRadarGame.getPlayers();
+
+        if(admin.getRollno().toLowerCase().equals(myRollno)){
+            holder.imageViewtrash.setVisibility(View.VISIBLE);
+            holder.imageViewtrash.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RemovePost(gameRadarGame);
+                }
+            });
+        }else {
+            holder.imageViewtrash.setVisibility(View.GONE);
+        }
+
 
         if (amiInThisGame(gameRadarGame)) {
             holder.useradd.setImageResource(R.drawable.leave_game);
@@ -157,6 +174,7 @@ public class GameRadarAdapter extends RecyclerView.Adapter<GameRadarAdapter.View
         CircleImageView adminDP, useradd;
         TextView game, time, location, capacity;
         LinearLayout userlistContainer;
+        ImageView imageViewtrash;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -167,6 +185,8 @@ public class GameRadarAdapter extends RecyclerView.Adapter<GameRadarAdapter.View
             time = (TextView) itemView.findViewById(R.id.gameradar_time);
             capacity = (TextView) itemView.findViewById(R.id.gameradar_capacity);
             userlistContainer = (LinearLayout) itemView.findViewById(R.id.gameradar_players_container);
+            imageViewtrash = (ImageView) itemView.findViewById(R.id.button_trash);
+
 
         }
     }
@@ -215,5 +235,29 @@ public class GameRadarAdapter extends RecyclerView.Adapter<GameRadarAdapter.View
         }
 
         return result;
+    }
+    public void RemovePost(final GameRadarGame post){
+        new AlertDialog.Builder(context)
+                .setTitle("Delete post")
+                .setMessage("Are you sure you want to delete this post?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        myFirebaseRef.child("game_radar").child("games").child(post.getId()).removeValue();
+                        myFirebaseRef.child("game_radar").child("users").child(post.getAdmin().getRollno())
+                                .child("posts").child(post.getId()).removeValue();
+                        for(GameRadarUser user:post.getPlayers()){
+                            myFirebaseRef.child("game_radar").child("users").child(user.getRollno())
+                                    .child("games").child(post.getId()).removeValue();
+                        }
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+
     }
 }

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                app:theme="@style/AppTheme.edittext">
+
+                <EditText
+                    android:textColorHint="#ffffff"
+                    android:textColor="#ffffff"
+                    android:id="@+id/edit_gameradar_game"
+                    android:layout_width="match_parent"
+                    android:hint="Game"
+                    android:gravity="top"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                app:theme="@style/AppTheme.edittext">
+
+                <EditText
+                    android:textColorHint="#ffffff"
+                    android:textColor="#ffffff"
+                    android:id="@+id/edit_gameradar_location"
+                    android:layout_width="match_parent"
+                    android:hint="Location"
+                    android:gravity="top"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                app:theme="@style/AppTheme.edittext">
+
+                <EditText
+                    android:textColorHint="#ffffff"
+                    android:textColor="#ffffff"
+                    android:id="@+id/edit_gameradar_capacity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Capacity"
+                    android:gravity="top"
+                    android:inputType="number" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <TextView
+                android:textColorHint="#ffffff"
+                android:textColor="#ffffff"
+                android:id="@+id/edit_gameradar_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Date"
+                android:enabled="false"
+                android:gravity="top"
+                android:text="Date"
+                android:textSize="15dp"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:clickable="true"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PickDate"
+                android:id="@+id/button_gameradar_pick_date" />
+
+
+            <TextView
+                android:textColorHint="#ffffff"
+                android:textColor="#ffffff"
+                android:id="@+id/edit_gameradar_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Time"
+                android:enabled="false"
+                android:gravity="top"
+                android:text="Time"
+                android:textSize="15dp"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:clickable="true"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PickDate"
+                android:id="@+id/button_gameradar_pick_time" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
