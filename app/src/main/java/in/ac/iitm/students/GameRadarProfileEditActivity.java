@@ -228,11 +228,14 @@ public class GameRadarProfileEditActivity extends AppCompatActivity {
                             Utils.getprefString(Strings.GCMTOKEN, GameRadarProfileEditActivity.this), dpimgurl);
                     if (alredy_have_account) {
                         UpdateAccount(gameRadarUser,"you have successfully updated account");
+                        Log.d("1","asd");
                         ringProgressDialog.dismiss();
 
                     } else {
                         UpdateAccount(gameRadarUser,"you have successfully created account");
                         ringProgressDialog.dismiss();
+                        Log.d("2","asd");
+
 
                     }
 
@@ -300,64 +303,68 @@ public class GameRadarProfileEditActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                final GameRadarUser usertemp = dataSnapshot.getValue(GameRadarUser.class);
+                GameRadarUser usertemp = dataSnapshot.getValue(GameRadarUser.class);
                 if (usertemp!=null){
                     user.setPosts(usertemp.getPosts());
                     user.setGames(usertemp.getGames());
-                    userRef.setValue(user, new Firebase.CompletionListener() {
-                        @Override
-                        public void onComplete(final FirebaseError firebaseError, Firebase firebase) {
-                            user.setGames(null);
-                            user.setPosts(null);
-                            if(usertemp.getGames()!=null){
-                                for (final Map.Entry<String, Boolean> entry : usertemp.getGames().entrySet()) {
-                                    Query queryRef = myFirebaseRef
-                                            .child("game_radar")
-                                            .child("games")
-                                            .child(entry.getKey())
-                                            .child("players")
-                                            .orderByChild("rollno")
-                                            .equalTo(rollnostring);
-
-                                    queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            for (DataSnapshot user1 : dataSnapshot.getChildren()) {
-                                                Firebase ref = myFirebaseRef.child("game_radar")
-                                                        .child("games")
-                                                        .child(entry.getKey())
-                                                        .child("players")
-                                                        .child(user1
-                                                                .getKey());
-                                                ref.setValue(user);
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(FirebaseError firebaseError) {
-
-                                        }
-                                    });
-                                }
-                            }
-                            if(usertemp.getPosts()!=null){
-                                for (final Map.Entry<String, Boolean> entry : usertemp.getPosts().entrySet()) {
-                                    Firebase ref = myFirebaseRef
-                                            .child("game_radar")
-                                            .child("games")
-                                            .child(entry.getKey())
-                                            .child("admin");
-                                    ref.setValue(user);
-                                }
-                            }
-                            Toast.makeText(GameRadarProfileEditActivity.this
-                                    , toast, Toast.LENGTH_LONG).show();
-                            //  ringProgressDialog.dismiss();
-                            finish();
-                        }
-                    });
-
+                }else {
+                    usertemp = new GameRadarUser();
                 }
+                final GameRadarUser finalUsertemp = usertemp;
+
+
+                userRef.setValue(user, new Firebase.CompletionListener() {
+                    @Override
+                    public void onComplete(final FirebaseError firebaseError, Firebase firebase) {
+                        user.setGames(null);
+                        user.setPosts(null);
+                        if(finalUsertemp.getGames()!=null){
+                            for (final Map.Entry<String, Boolean> entry : finalUsertemp.getGames().entrySet()) {
+                                Query queryRef = myFirebaseRef
+                                        .child("game_radar")
+                                        .child("games")
+                                        .child(entry.getKey())
+                                        .child("players")
+                                        .orderByChild("rollno")
+                                        .equalTo(rollnostring);
+
+                                queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot user1 : dataSnapshot.getChildren()) {
+                                            Firebase ref = myFirebaseRef.child("game_radar")
+                                                    .child("games")
+                                                    .child(entry.getKey())
+                                                    .child("players")
+                                                    .child(user1
+                                                            .getKey());
+                                            ref.setValue(user);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(FirebaseError firebaseError) {
+
+                                    }
+                                });
+                            }
+                        }
+                        if(finalUsertemp.getPosts()!=null){
+                            for (final Map.Entry<String, Boolean> entry : finalUsertemp.getPosts().entrySet()) {
+                                Firebase ref = myFirebaseRef
+                                        .child("game_radar")
+                                        .child("games")
+                                        .child(entry.getKey())
+                                        .child("admin");
+                                ref.setValue(user);
+                            }
+                        }
+                        Toast.makeText(GameRadarProfileEditActivity.this
+                                , toast, Toast.LENGTH_LONG).show();
+                        //  ringProgressDialog.dismiss();
+                        finish();
+                    }
+                });
 
 
             }

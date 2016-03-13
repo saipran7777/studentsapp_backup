@@ -96,6 +96,167 @@ public class GameradarFragment extends Fragment {
             Intent intent = new Intent(getActivity(), GameRadarProfileEditActivity.class);
             context.startActivity(intent);
             getActivity().finish();
+        }else{
+            fabaddImage = (FloatingActionButton) v.findViewById(R.id.fabadd);
+            fabtic = (FloatingActionButton) v.findViewById(R.id.fabtic);
+            fabtic.hide();
+            myView = (CardView) v.findViewById(R.id.cardView);
+            final SupportAnimator[] animator = new SupportAnimator[1];
+            fabaddImage.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    fabaddImage.hide();
+                    fabtic.show();
+                    myView.setVisibility(View.VISIBLE);
+                    // get the center for the c   lipping circle
+                    int cx = (myView.getLeft() + myView.getRight()) / 2;
+                    int cy = (myView.getTop() + myView.getBottom()) / 2;
+
+                    // get the final radius for the clipping circle
+                    int dx = Math.max(cx, myView.getWidth() - cx);
+                    int dy = Math.max(cy, myView.getHeight() - cy);
+                    float finalRadius = (float) Math.hypot(dx, dy);
+                    animator[0] =
+                            ViewAnimationUtils.createCircularReveal(myView, myView.getWidth(), myView.getHeight(), 0, myView.getHeight());
+                    animator[0].setInterpolator(new AccelerateDecelerateInterpolator());
+                    animator[0].setDuration(700);
+                    animator[0].start();
+                }
+            });
+            fabtic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    if (Utils.isEmpty(game) || Utils.isEmpty(location) || Utils.isEmpty(capacity)) {
+                        Toast.makeText(context, "You haven't filled everything", Toast.LENGTH_LONG).show();
+                    } else if (calendar == null || todayTiminmills == null) {
+                        Toast.makeText(context, "You haven't selcected date and time", Toast.LENGTH_LONG).show();
+                    } else {
+                        fabaddImage.show();
+                        fabtic.hide();
+                        animator[0] = ViewAnimationUtils.createCircularReveal(myView, myView.getWidth(),
+                                myView.getHeight(), 2 * myView.getHeight(), 0);
+                        animator[0].setDuration(700);
+                        animator[0].start();
+
+                        animator[0].addListener(new SupportAnimator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart() {
+                            }
+
+                            @Override
+                            public void onAnimationEnd() {
+                                animator[0] = null;
+                                myView.setVisibility(myView.INVISIBLE);
+                                // PostPost();
+                                GameRadarUser gameRadarUser = gson.fromJson(Utils.getprefString(Strings.GAMERADARUSER, context), GameRadarUser.class);
+
+                                GameRadarGame NewGame = new GameRadarGame(gameRadarUser, null,
+                                        location.getText().toString(), game.getText().toString(), calendar
+                                        .getTimeInMillis() + todayTiminmills, System.currentTimeMillis(), Long.parseLong(capacity.getText().toString(), 10));
+                                Firebase gameRef = myFirebaseRef.child("game_radar").child("games");
+                                Firebase newPostRef = gameRef.push();
+                                newPostRef.setValue(NewGame);
+
+                                myFirebaseRef.child("game_radar").child("users").child(gameRadarUser.getRollno())
+                                        .child("posts").child(newPostRef.getKey()).setValue(true);
+
+                                game.setText("");
+                                location.setText("");
+                                capacity.setText("");
+                                time.setText("Time");
+                                date.setText("Date");
+
+
+                            }
+
+                            @Override
+                            public void onAnimationCancel() {
+                            }
+
+                            @Override
+                            public void onAnimationRepeat() {
+                            }
+                        });
+                    }
+
+                }
+            });
+            ImageButton closeButton = (ImageButton) v.findViewById(R.id.imageButton_close);
+            closeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    hidePostDialoage();
+                }
+            });
+            game = (EditText) v.findViewById(R.id.edit_gameradar_game);
+            date = (TextView) v.findViewById(R.id.edit_gameradar_date);
+            time = (TextView) v.findViewById(R.id.edit_gameradar_time);
+            location = (EditText) v.findViewById(R.id.edit_gameradar_location);
+            capacity = (EditText) v.findViewById(R.id.edit_gameradar_capacity);
+
+            ((Button) v.findViewById(R.id.button_gameradar_pick_time)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View vi) {
+                    showTimePickerDialog(v);
+                    Log.d("iam herw", "hai i am here");
+                }
+            });
+            ((Button) v.findViewById(R.id.button_gameradar_pick_date)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View vi) {
+                    showDatePickerDialog(v);
+                }
+            });
+
+
+            recyclerView = (RecyclerView) v.findViewById(R.id.gameradar_recycler);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerView.setHasFixedSize(true);
+
+            gameRadarGames = new ArrayList<GameRadarGame>();
+            gameRadarAdapter = new GameRadarAdapter(gameRadarGames, context);
+            recyclerView.setAdapter(gameRadarAdapter);
+            gameRadarGames = (ArrayList<GameRadarGame>) gson
+                    .fromJson(Utils.getprefString(Strings.GAMERADARDATA, context), new TypeToken<ArrayList<GameRadarGame>>() {
+                    }.getType());
+            if (gameRadarGames!=null ){
+                gameRadarAdapter.setGameList(reverse(gameRadarGames));
+                gameRadarAdapter.notifyDataSetChanged();
+            }
+
+
+            final ProgressDialog ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "Loading Data ...", true);
+            Firebase gameRef = myFirebaseRef.child("game_radar").child("games");
+            gameRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    // Log.d("Aqel", snapshot.getValue().toString());
+                    gameRadarGames =new ArrayList<GameRadarGame>();
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+
+                        GameRadarGame game = postSnapshot.getValue(GameRadarGame.class);
+                        game.setId(postSnapshot.getKey());
+                        Log.d("key", postSnapshot.getKey());
+                        gameRadarGames.add(game);
+                    }
+                    gameRadarAdapter.setGameList(reverse(gameRadarGames));
+                    ringProgressDialog.dismiss();
+                    Utils.saveprefString(Strings.GAMERADARDATA, gson.toJson(gameRadarGames), context);
+                    gameRadarAdapter.notifyDataSetChanged();
+
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+                    System.out.println("The read failed: " + firebaseError.getMessage());
+                    ringProgressDialog.dismiss();
+                    Log.d("no", "no net Connection");
+                }
+            });
+
+
         }
 /*
         ArrayList<GameRadarUser> tempuser =new ArrayList<GameRadarUser>();
@@ -107,165 +268,6 @@ public class GameradarFragment extends Fragment {
         Firebase gameRef =myFirebaseRef.child("game_radar").child("games");
         gameRef.push().setValue(temp);
         Map timestamp = ServerValue.TIMESTAMP;*/
-
-        fabaddImage = (FloatingActionButton) v.findViewById(R.id.fabadd);
-        fabtic = (FloatingActionButton) v.findViewById(R.id.fabtic);
-        fabtic.hide();
-        myView = (CardView) v.findViewById(R.id.cardView);
-        final SupportAnimator[] animator = new SupportAnimator[1];
-        fabaddImage.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                fabaddImage.hide();
-                fabtic.show();
-                myView.setVisibility(View.VISIBLE);
-                // get the center for the c   lipping circle
-                int cx = (myView.getLeft() + myView.getRight()) / 2;
-                int cy = (myView.getTop() + myView.getBottom()) / 2;
-
-                // get the final radius for the clipping circle
-                int dx = Math.max(cx, myView.getWidth() - cx);
-                int dy = Math.max(cy, myView.getHeight() - cy);
-                float finalRadius = (float) Math.hypot(dx, dy);
-                animator[0] =
-                        ViewAnimationUtils.createCircularReveal(myView, myView.getWidth(), myView.getHeight(), 0, myView.getHeight());
-                animator[0].setInterpolator(new AccelerateDecelerateInterpolator());
-                animator[0].setDuration(700);
-                animator[0].start();
-            }
-        });
-        fabtic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                if (Utils.isEmpty(game) || Utils.isEmpty(location) || Utils.isEmpty(capacity)) {
-                    Toast.makeText(context, "You haven't filled everything", Toast.LENGTH_LONG).show();
-                } else if (calendar == null || todayTiminmills == null) {
-                    Toast.makeText(context, "You haven't selcected date and time", Toast.LENGTH_LONG).show();
-                } else {
-                    fabaddImage.show();
-                    fabtic.hide();
-                    animator[0] = ViewAnimationUtils.createCircularReveal(myView, myView.getWidth(),
-                            myView.getHeight(), 2 * myView.getHeight(), 0);
-                    animator[0].setDuration(700);
-                    animator[0].start();
-
-                    animator[0].addListener(new SupportAnimator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart() {
-                        }
-
-                        @Override
-                        public void onAnimationEnd() {
-                            animator[0] = null;
-                            myView.setVisibility(myView.INVISIBLE);
-                            // PostPost();
-                            GameRadarUser gameRadarUser = gson.fromJson(Utils.getprefString(Strings.GAMERADARUSER, context), GameRadarUser.class);
-
-                            GameRadarGame NewGame = new GameRadarGame(gameRadarUser, null,
-                                    location.getText().toString(), game.getText().toString(), calendar
-                                    .getTimeInMillis() + todayTiminmills, System.currentTimeMillis(), Long.parseLong(capacity.getText().toString(), 10));
-                            Firebase gameRef = myFirebaseRef.child("game_radar").child("games");
-                            Firebase newPostRef = gameRef.push();
-                            newPostRef.setValue(NewGame);
-
-                            myFirebaseRef.child("game_radar").child("users").child(gameRadarUser.getRollno())
-                                    .child("posts").child(newPostRef.getKey()).setValue(true);
-
-                            game.setText("");
-                            location.setText("");
-                            capacity.setText("");
-                            time.setText("Time");
-                            date.setText("Date");
-
-
-                        }
-
-                        @Override
-                        public void onAnimationCancel() {
-                        }
-
-                        @Override
-                        public void onAnimationRepeat() {
-                        }
-                    });
-                }
-
-            }
-        });
-        ImageButton closeButton = (ImageButton) v.findViewById(R.id.imageButton_close);
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                hidePostDialoage();
-            }
-        });
-        game = (EditText) v.findViewById(R.id.edit_gameradar_game);
-        date = (TextView) v.findViewById(R.id.edit_gameradar_date);
-        time = (TextView) v.findViewById(R.id.edit_gameradar_time);
-        location = (EditText) v.findViewById(R.id.edit_gameradar_location);
-        capacity = (EditText) v.findViewById(R.id.edit_gameradar_capacity);
-
-        ((Button) v.findViewById(R.id.button_gameradar_pick_time)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View vi) {
-                showTimePickerDialog(v);
-                Log.d("iam herw", "hai i am here");
-            }
-        });
-        ((Button) v.findViewById(R.id.button_gameradar_pick_date)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View vi) {
-                showDatePickerDialog(v);
-            }
-        });
-
-
-        recyclerView = (RecyclerView) v.findViewById(R.id.gameradar_recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setHasFixedSize(true);
-
-        gameRadarGames = new ArrayList<GameRadarGame>();
-        gameRadarAdapter = new GameRadarAdapter(gameRadarGames, context);
-        recyclerView.setAdapter(gameRadarAdapter);
-        gameRadarGames = (ArrayList<GameRadarGame>) gson
-                .fromJson(Utils.getprefString(Strings.GAMERADARDATA, context), new TypeToken<ArrayList<GameRadarGame>>() {
-                }.getType());
-        if (gameRadarGames!=null ){
-            gameRadarAdapter.setGameList(reverse(gameRadarGames));
-            gameRadarAdapter.notifyDataSetChanged();
-        }
-
-
-        final ProgressDialog ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "Loading Data ...", true);
-        Firebase gameRef = myFirebaseRef.child("game_radar").child("games");
-        gameRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                // Log.d("Aqel", snapshot.getValue().toString());
-                gameRadarGames =new ArrayList<GameRadarGame>();
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-
-                    GameRadarGame game = postSnapshot.getValue(GameRadarGame.class);
-                    game.setId(postSnapshot.getKey());
-                    Log.d("key", postSnapshot.getKey());
-                    gameRadarGames.add(game);
-                }
-                gameRadarAdapter.setGameList(reverse(gameRadarGames));
-                ringProgressDialog.dismiss();
-                Utils.saveprefString(Strings.GAMERADARDATA, gson.toJson(gameRadarGames), context);
-                gameRadarAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
-                ringProgressDialog.dismiss();
-                Log.d("no", "no net Connection");
-            }
-        });
 
 
         return v;
