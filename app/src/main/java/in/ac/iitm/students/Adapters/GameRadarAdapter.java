@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -162,6 +163,18 @@ public class GameRadarAdapter extends RecyclerView.Adapter<GameRadarAdapter.View
 
             holder.userlistContainer.addView(v);
         }
+        if(players.size()>3){
+            holder.moreContainer.setVisibility(View.VISIBLE);
+            holder.moreCount.setText(Integer.toString(players.size()-3)+" more");
+            holder.moreContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ShowDiloge(players);
+                }
+            });
+        }else {
+            holder.moreContainer.setVisibility(View.GONE);
+        }
 
     }
 
@@ -172,8 +185,8 @@ public class GameRadarAdapter extends RecyclerView.Adapter<GameRadarAdapter.View
 
     class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView adminDP, useradd;
-        TextView game, time, location, capacity;
-        LinearLayout userlistContainer;
+        TextView game, time, location, capacity ,moreCount;
+        LinearLayout userlistContainer,moreContainer;
         ImageView imageViewtrash;
 
         public ViewHolder(View itemView) {
@@ -186,6 +199,10 @@ public class GameRadarAdapter extends RecyclerView.Adapter<GameRadarAdapter.View
             capacity = (TextView) itemView.findViewById(R.id.gameradar_capacity);
             userlistContainer = (LinearLayout) itemView.findViewById(R.id.gameradar_players_container);
             imageViewtrash = (ImageView) itemView.findViewById(R.id.button_trash);
+
+
+            moreContainer = (LinearLayout) itemView.findViewById(R.id.gameradar_extra_conainer);
+            moreCount = (TextView) itemView.findViewById(R.id.gameradar_extra);
 
 
         }
@@ -259,5 +276,23 @@ public class GameRadarAdapter extends RecyclerView.Adapter<GameRadarAdapter.View
                 .setIcon(R.drawable.ic_warning_black_24dp)
                 .show();
 
+    }
+    void ShowDiloge(ArrayList<GameRadarUser> players){
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                context);
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.gameradar_players_list_diloge, null);
+        RecyclerView  recyclerView = (RecyclerView) view.findViewById(R.id.gameradar_players_lisr_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(new GameRadarUserDialogeAdapter(players,context));
+
+        alertDialogBuilder.setView(view);
+        alertDialogBuilder.setCancelable(true);
+
+
+        final AlertDialog dialog = alertDialogBuilder.create();
+        dialog.show();
     }
 }

@@ -46,7 +46,9 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Football"
-                    android:id="@+id/gameradar_game" />
+                    android:id="@+id/gameradar_game"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -54,7 +56,6 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="location"
                     android:id="@+id/gameradar_location"
-                    android:layout_marginTop="3dp"
                     android:layout_marginBottom="1dp" />
 
                 <TextView
@@ -109,11 +110,33 @@
         android:layout_marginRight="6dp"
         android:layout_marginBottom="3dp"
         app:cardElevation="4dp"
-        >
+        ><LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/gameradar_players_container"
             android:orientation="vertical"></LinearLayout>
+        <LinearLayout
+            android:id="@+id/gameradar_extra_conainer"
+            android:layout_width="fill_parent"
+            android:layout_height="25dp"
+            android:visibility="visible"
+            android:background="#2bff0000">
+
+            <TextView
+                android:id="@+id/gameradar_extra"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                android:text="10 more"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="@color/colorAccent" />
+        </LinearLayout>
+
+    </LinearLayout>
+
     </android.support.v7.widget.CardView>
 </LinearLayout>
