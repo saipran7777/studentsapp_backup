@@ -76,7 +76,7 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:id="@+id/imageButton_close"
-                android:background="@drawable/ic_close_red_50_24dp"
+                android:background="@drawable/ic_trash"
                 android:backgroundTint="#6a3737"
                 android:layout_alignBottom="@+id/comment_content"
                 android:layout_alignRight="@+id/comment_time"

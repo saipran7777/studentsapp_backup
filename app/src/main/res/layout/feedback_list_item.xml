@@ -155,7 +155,7 @@
                 android:layout_marginRight="3dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginTop="3dp"
-                android:src="@drawable/ic_close_red_50_24dp"
+                android:src="@drawable/ic_trash"
                 android:tint="#ba0404"
                 android:tintMode="src_atop"
                 />
