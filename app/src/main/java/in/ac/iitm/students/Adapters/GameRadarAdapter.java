@@ -240,7 +240,7 @@ public class GameRadarAdapter extends RecyclerView.Adapter<GameRadarAdapter.View
         new AlertDialog.Builder(context)
                 .setTitle("Delete post")
                 .setMessage("Are you sure you want to delete this post?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         myFirebaseRef.child("game_radar").child("games").child(post.getId()).removeValue();
                         myFirebaseRef.child("game_radar").child("users").child(post.getAdmin().getRollno())
@@ -251,12 +251,12 @@ public class GameRadarAdapter extends RecyclerView.Adapter<GameRadarAdapter.View
                         }
                     }
                 })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                .setNegativeButton("no", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // do nothing
                     }
                 })
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIcon(R.drawable.ic_warning_black_24dp)
                 .show();
 
     }

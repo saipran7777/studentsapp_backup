@@ -135,11 +135,11 @@ public class GameRadarProfileEditActivity extends AppCompatActivity {
 
                     String rollnostring = rollno.getText().toString().toLowerCase();
                     Firebase userRef = myFirebaseRef.child("game_radar").child("users").child(rollnostring);
+
                     GameRadarUser gameRadarUser = new GameRadarUser(name.getText().toString(),
                             rollnostring, phonenum.getText().toString(),
                             hostal.getText().toString(), roomno.getText().toString(),
                             Utils.getprefString(Strings.GCMTOKEN, GameRadarProfileEditActivity.this), dpimgurl);
-                    Utils.saveprefString(Strings.GAMERADARUSER, gson.toJson(gameRadarUser), getBaseContext());
 
                     UpdateAccount(gameRadarUser, "successfullly updated");
                     ringProgressDialog.dismiss();

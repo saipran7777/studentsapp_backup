@@ -12,4 +12,6 @@ public class Strings {
     public static String FEEDBACK ="feedbackjsonstring";
     public static String GCMTOKEN = "gcmtoken";
     public static String GAMERADARUSER ="gameradaruserjson";
+    public static String GAMERADARDATA ="gameradardatason";
+
 }

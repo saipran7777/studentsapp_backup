@@ -3,6 +3,7 @@ package in.ac.iitm.students.Fragments;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ServerValue;
 import com.firebase.client.ValueEventListener;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -48,6 +50,7 @@ import java.util.Map;
 import in.ac.iitm.students.Adapters.GameRadarAdapter;
 import in.ac.iitm.students.GameRadarProfileEditActivity;
 import in.ac.iitm.students.MainActivity;
+import in.ac.iitm.students.Objects.Feedback;
 import in.ac.iitm.students.Objects.GameRadarGame;
 import in.ac.iitm.students.Objects.GameRadarUser;
 import in.ac.iitm.students.R;
@@ -60,7 +63,6 @@ import io.codetail.animation.ViewAnimationUtils;
  * A simple {@link Fragment} subclass.
  */
 public class GameradarFragment extends Fragment {
-    GameRadarUser gameRadarUser;
     RecyclerView recyclerView;
     FloatingActionButton fabaddImage;
     FloatingActionButton fabtic;
@@ -68,6 +70,7 @@ public class GameradarFragment extends Fragment {
     public GameradarFragment() {
         // Required empty public constructor
     }
+
     View v;
     Context context;
     Firebase myFirebaseRef;
@@ -77,24 +80,23 @@ public class GameradarFragment extends Fragment {
     CardView myView;
     static Calendar calendar;
     static Long todayTiminmills;
-    static EditText game,location,capacity;
-    static TextView time,date;
+    static EditText game, location, capacity;
+    static TextView time, date;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        v =inflater.inflate(R.layout.fragment_gameradar, container, false);
+        v = inflater.inflate(R.layout.fragment_gameradar, container, false);
         context = getActivity();
         Firebase.setAndroidContext(context);
         myFirebaseRef = new Firebase(context.getString(R.string.firebaseurl));
-        if(Utils.getprefString(Strings.GAMERADARUSER,context)==""){
+        if (Utils.getprefString(Strings.GAMERADARUSER, context) == "") {
             Intent intent = new Intent(getActivity(), GameRadarProfileEditActivity.class);
             context.startActivity(intent);
             getActivity().finish();
         }
-        gameRadarUser = gson.fromJson(Utils.getprefString(Strings.GAMERADARUSER,context),GameRadarUser.class);
 /*
         ArrayList<GameRadarUser> tempuser =new ArrayList<GameRadarUser>();
         tempuser.add(gameRadarUser);
@@ -136,11 +138,11 @@ public class GameradarFragment extends Fragment {
         fabtic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (Utils.isEmpty(game) || Utils.isEmpty(location)|| Utils.isEmpty(capacity)) {
+                if (Utils.isEmpty(game) || Utils.isEmpty(location) || Utils.isEmpty(capacity)) {
                     Toast.makeText(context, "You haven't filled everything", Toast.LENGTH_LONG).show();
-                }else if(calendar==null||todayTiminmills ==null){
+                } else if (calendar == null || todayTiminmills == null) {
                     Toast.makeText(context, "You haven't selcected date and time", Toast.LENGTH_LONG).show();
-                }else  {
+                } else {
                     fabaddImage.show();
                     fabtic.hide();
                     animator[0] = ViewAnimationUtils.createCircularReveal(myView, myView.getWidth(),
@@ -158,10 +160,12 @@ public class GameradarFragment extends Fragment {
                             animator[0] = null;
                             myView.setVisibility(myView.INVISIBLE);
                             // PostPost();
-                            GameRadarGame NewGame = new GameRadarGame(gameRadarUser,null,
-                                    location.getText().toString(),game.getText().toString(),calendar
-                                    .getTimeInMillis()+todayTiminmills,System.currentTimeMillis(), Long.parseLong( capacity.getText().toString(), 10) );
-                            Firebase gameRef =myFirebaseRef.child("game_radar").child("games");
+                            GameRadarUser gameRadarUser = gson.fromJson(Utils.getprefString(Strings.GAMERADARUSER, context), GameRadarUser.class);
+
+                            GameRadarGame NewGame = new GameRadarGame(gameRadarUser, null,
+                                    location.getText().toString(), game.getText().toString(), calendar
+                                    .getTimeInMillis() + todayTiminmills, System.currentTimeMillis(), Long.parseLong(capacity.getText().toString(), 10));
+                            Firebase gameRef = myFirebaseRef.child("game_radar").child("games");
                             Firebase newPostRef = gameRef.push();
                             newPostRef.setValue(NewGame);
 
@@ -173,7 +177,6 @@ public class GameradarFragment extends Fragment {
                             capacity.setText("");
                             time.setText("Time");
                             date.setText("Date");
-
 
 
                         }
@@ -190,19 +193,19 @@ public class GameradarFragment extends Fragment {
 
             }
         });
-        ImageButton closeButton =(ImageButton) v.findViewById(R.id.imageButton_close);
+        ImageButton closeButton = (ImageButton) v.findViewById(R.id.imageButton_close);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               
+
                 hidePostDialoage();
             }
         });
-        game =(EditText) v.findViewById(R.id.edit_gameradar_game);
-        date =(TextView) v.findViewById(R.id.edit_gameradar_date);
-        time =(TextView) v.findViewById(R.id.edit_gameradar_time);
-        location =(EditText) v.findViewById(R.id.edit_gameradar_location);
-        capacity =(EditText) v.findViewById(R.id.edit_gameradar_capacity);
+        game = (EditText) v.findViewById(R.id.edit_gameradar_game);
+        date = (TextView) v.findViewById(R.id.edit_gameradar_date);
+        time = (TextView) v.findViewById(R.id.edit_gameradar_time);
+        location = (EditText) v.findViewById(R.id.edit_gameradar_location);
+        capacity = (EditText) v.findViewById(R.id.edit_gameradar_capacity);
 
         ((Button) v.findViewById(R.id.button_gameradar_pick_time)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -224,32 +227,45 @@ public class GameradarFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         gameRadarGames = new ArrayList<GameRadarGame>();
-        gameRadarAdapter =new GameRadarAdapter(gameRadarGames,context);
+        gameRadarAdapter = new GameRadarAdapter(gameRadarGames, context);
         recyclerView.setAdapter(gameRadarAdapter);
+        gameRadarGames = (ArrayList<GameRadarGame>) gson
+                .fromJson(Utils.getprefString(Strings.GAMERADARDATA, context), new TypeToken<ArrayList<GameRadarGame>>() {
+                }.getType());
+        if (gameRadarGames!=null ){
+            gameRadarAdapter.setGameList(reverse(gameRadarGames));
+            gameRadarAdapter.notifyDataSetChanged();
+        }
 
-        Firebase gameRef =myFirebaseRef.child("game_radar").child("games");
+
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "Loading Data ...", true);
+        Firebase gameRef = myFirebaseRef.child("game_radar").child("games");
         gameRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-               // Log.d("Aqel", snapshot.getValue().toString());
-                gameRadarGames.clear();
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                // Log.d("Aqel", snapshot.getValue().toString());
+                gameRadarGames =new ArrayList<GameRadarGame>();
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
                     GameRadarGame game = postSnapshot.getValue(GameRadarGame.class);
                     game.setId(postSnapshot.getKey());
-                    Log.d("key" ,postSnapshot.getKey());
+                    Log.d("key", postSnapshot.getKey());
                     gameRadarGames.add(game);
                 }
-              gameRadarAdapter.setGameList(reverse(gameRadarGames));
+                gameRadarAdapter.setGameList(reverse(gameRadarGames));
+                ringProgressDialog.dismiss();
+                Utils.saveprefString(Strings.GAMERADARDATA, gson.toJson(gameRadarGames), context);
                 gameRadarAdapter.notifyDataSetChanged();
 
             }
+
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 System.out.println("The read failed: " + firebaseError.getMessage());
+                ringProgressDialog.dismiss();
+                Log.d("no", "no net Connection");
             }
         });
-
 
 
         return v;
@@ -267,6 +283,7 @@ public class GameradarFragment extends Fragment {
         MainActivity.hideItem(0);
 
     }
+
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
 
@@ -286,17 +303,19 @@ public class GameradarFragment extends Fragment {
             // Do something with the time chosen by the user
             Date datedsf = new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime();
 
-            Integer total = (hourOfDay*60+minute)*60*1000;
+            Integer total = (hourOfDay * 60 + minute) * 60 * 1000;
             todayTiminmills = total.longValue();
-            Date date1 = new Date( total.longValue() +datedsf.getTime());
+            Date date1 = new Date(total.longValue() + datedsf.getTime());
             SimpleDateFormat df2 = new SimpleDateFormat("KK:mm a");
             time.setText(df2.format(date1));
 
         }
     }
+
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
         Calendar c;
+
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
@@ -311,21 +330,24 @@ public class GameradarFragment extends Fragment {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
-            calendar =c;
-            calendar.set(year,month,day,0,0,0);
+            calendar = c;
+            calendar.set(year, month, day, 0, 0, 0);
             Date date1 = new Date(calendar.getTimeInMillis());
             SimpleDateFormat df2 = new SimpleDateFormat("dd MMM");
             date.setText(df2.format(date1));
         }
     }
+
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
     }
+
     public void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getFragmentManager(), "timePicker");
     }
+
     public static <T> ArrayList<T> reverse(ArrayList<T> list) {
         int length = list.size();
         ArrayList<T> result = new ArrayList<T>(length);
@@ -336,6 +358,7 @@ public class GameradarFragment extends Fragment {
 
         return result;
     }
+
     public void hidePostDialoage() {
         fabaddImage.show();
         fabtic.hide();

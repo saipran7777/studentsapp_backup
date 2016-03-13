@@ -2,8 +2,10 @@ package in.ac.iitm.students.Adapters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -45,6 +47,8 @@ import java.util.Map;
 
 import in.ac.iitm.students.FeedbackActivity;
 import in.ac.iitm.students.Objects.Feedback;
+import in.ac.iitm.students.Objects.GameRadarGame;
+import in.ac.iitm.students.Objects.GameRadarUser;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.Utils.Strings;
 import in.ac.iitm.students.Utils.Utils;
@@ -326,11 +330,9 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
 
     public void removePost(final int id, final int position) {
         final ProgressDialog progress = new ProgressDialog(context);
-        progress.setCancelable(false);
-        progress.setMessage("removing posting  ...");
-        progress.show();
-        RequestQueue queue = Volley.newRequestQueue(context);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+
+        final RequestQueue queue = Volley.newRequestQueue(context);
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 context.getString(R.string.feedbackpostremoveurel),
                 new Response.Listener<String>() {
                     @Override
@@ -365,7 +367,25 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
                 return params;
             }
         };
+        new AlertDialog.Builder(context)
+                .setTitle("Delete post")
+                .setMessage("Are you sure you want to delete this post?")
+                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        queue.add(stringRequest);
+                        progress.setCancelable(false);
+                        progress.setMessage("removing posting  ...");
+                        progress.show();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(R.drawable.ic_warning_black_24dp)
+                .show();
 
-        queue.add(stringRequest);
     }
+
 }

@@ -485,8 +485,8 @@ public class FeedbackCommentAdapter extends  RecyclerView.Adapter<RecyclerView.V
         progress.setCancelable(false);
         progress.setMessage("removing comment  ...");
         progress.show();
-        RequestQueue queue = Volley.newRequestQueue(context);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+        final RequestQueue queue = Volley.newRequestQueue(context);
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 context.getString(R.string.feedbackpostcommentremoveurel),
                 new Response.Listener<String>() {
                     @Override
@@ -533,8 +533,25 @@ public class FeedbackCommentAdapter extends  RecyclerView.Adapter<RecyclerView.V
                 return params;
             }
         };
+        new AlertDialog.Builder(context)
+                .setTitle("Delete post")
+                .setMessage("Are you sure you want to delete this post?")
+                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        queue.add(stringRequest);
+                        progress.setCancelable(false);
+                        progress.setMessage("removing posting  ...");
+                        progress.show();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(R.drawable.ic_warning_black_24dp)
+                .show();
 
-        queue.add(stringRequest);
     }
     public void submitAnger(final int postid, final int anger){
         RequestQueue queue = Volley.newRequestQueue(context);
