@@ -114,7 +114,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
         rlp.setMargins(0, 0, 30, 30);
-
         myView = (CardView) v.findViewById(R.id.cardSearch);
         ImageButton Bsearch = (ImageButton) v.findViewById(R.id.buttonSearch);
         ImageButton Bnav = (ImageButton) v.findViewById(R.id.imageButton2);

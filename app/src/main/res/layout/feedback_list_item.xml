@@ -146,19 +146,19 @@
                 </com.balysv.materialripple.MaterialRippleLayout>
             </LinearLayout>
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:id="@+id/imageButton_close"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="3dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginTop="3dp"
                 android:src="@drawable/ic_trash"
                 android:tint="#ba0404"
                 android:tintMode="src_atop"
-                />
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp" />
         </RelativeLayout>
 
 
