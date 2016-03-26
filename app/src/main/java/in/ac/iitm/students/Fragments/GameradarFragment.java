@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 import com.firebase.client.ServerValue;
 import com.firebase.client.ValueEventListener;
 import com.google.gson.Gson;
@@ -95,7 +96,9 @@ public class GameradarFragment extends Fragment {
         if (Utils.getprefString(Strings.GAMERADARUSER, context) == "") {
             Intent intent = new Intent(getActivity(), GameRadarProfileEditActivity.class);
             context.startActivity(intent);
-            getActivity().finish();
+            //
+            //
+            //getActivity().finish();
         }else{
             fabaddImage = (FloatingActionButton) v.findViewById(R.id.fabadd);
             fabtic = (FloatingActionButton) v.findViewById(R.id.fabtic);
@@ -229,7 +232,8 @@ public class GameradarFragment extends Fragment {
 
             final ProgressDialog ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "Loading Data ...", true);
             Firebase gameRef = myFirebaseRef.child("game_radar").child("games");
-            gameRef.addValueEventListener(new ValueEventListener() {
+            Query qry = gameRef.orderByChild("startTime").startAt(System.currentTimeMillis()-24*60*60*1000);
+            qry.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     // Log.d("Aqel", snapshot.getValue().toString());

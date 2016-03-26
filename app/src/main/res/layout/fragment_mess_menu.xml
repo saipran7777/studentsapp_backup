@@ -1,0 +1,74 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.ac.iitm.students.Fragments.AcademicCalendarFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/pbHeaderProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
+        </ProgressBar>
+        <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/image"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="#b6b6b6"
+            android:id="@+id/layout"
+            >
+
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:text="NI Menu 1"
+                android:id="@+id/button1"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp" />
+
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:text="NI Menu 2"
+                android:id="@+id/button2"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:text="SI Menu 1"
+                android:id="@+id/button4"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp" />
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:text="SI Menu 2"
+                android:id="@+id/button5"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="You need to have net connected for first time loading"
+                android:id="@+id/textView2"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

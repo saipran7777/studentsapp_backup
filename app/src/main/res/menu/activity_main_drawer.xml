@@ -38,6 +38,10 @@
             android:icon="@drawable/ic_date_range_black_24dp"
             android:title="Academic Calendar"></item>
         <item
+            android:id="@+id/nav_messmenu"
+            android:icon="@drawable/ic_restaurant_menu_black_24dp"
+            android:title="Mess Menu"></item>
+        <item
             android:id="@+id/nav_netaccess"
             android:icon="@drawable/ic_network_wifi_black_24dp"
             android:title="NetAccess"></item>

@@ -1,14 +1,307 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/app_bar_main"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:showIn="@layout/app_bar_main">
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:id="@+id/menu_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#9d9d9d">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
+                    android:layout_weight=".5"
+                    android:id="@+id/menu_map">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="130dp"
+                            android:layout_height="130dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_map_black_24dp"
+                            android:padding="30dp"
+                            android:tint="@color/colorAccent" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:text="Map"
+                            android:textColor="@color/colorPrimaryDark" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
+                    android:layout_weight=".5"
+                    android:id="@+id/menu_contacts">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="130dp"
+                            android:layout_height="130dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_contact_phone_black_24dp"
+                            android:padding="30dp"
+                            android:tint="@color/colorAccent" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:text="Important Contacts"
+                            android:textColor="@color/colorPrimaryDark" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
+                    android:layout_weight=".5"
+                    android:id="@+id/menu_gameradar">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="130dp"
+                            android:layout_height="130dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_wifi_tethering_black_24dp"
+                            android:padding="30dp"
+                            android:tint="@color/colorAccent" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:text="Game Radar"
+                            android:textColor="@color/colorPrimaryDark" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
+                    android:layout_weight=".5"
+                    android:id="@+id/menu_feedback">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="130dp"
+                            android:layout_height="130dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_error_black_24dp"
+                            android:padding="30dp"
+                            android:tint="@color/colorAccent" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:text="FeedBack Portal"
+                            android:textColor="@color/colorPrimaryDark" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
+                    android:layout_weight=".5"
+                    android:id="@+id/menu_t5">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="130dp"
+                            android:layout_height="130dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_google_news_xxl"
+                            android:padding="30dp"
+                            android:tint="@color/colorAccent" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:text="T5"
+                            android:textColor="@color/colorPrimaryDark" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
+                    android:layout_weight=".5"
+                    android:id="@+id/menu_academiccalender">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="130dp"
+                            android:layout_height="130dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_date_range_black_24dp"
+                            android:padding="30dp"
+                            android:tint="@color/colorAccent" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:text="Academic Calendar"
+                            android:textColor="@color/colorPrimaryDark" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
+                    android:layout_weight=".5"
+                    android:id="@+id/menu_messmenu">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="130dp"
+                            android:layout_height="130dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_restaurant_menu_black_24dp"
+                            android:padding="30dp"
+                            android:tint="@color/colorAccent" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:text="Mess Menu"
+                            android:textColor="@color/colorPrimaryDark" />
+                    </LinearLayout>                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
+                    android:layout_weight=".5"
+                    android:id="@+id/menu_netaccess">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="130dp"
+                            android:layout_height="130dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_network_wifi_black_24dp"
+                            android:padding="30dp"
+                            android:tint="@color/colorAccent" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:text="Netaccess"
+                            android:textColor="@color/colorPrimaryDark" />
+                    </LinearLayout>                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 </RelativeLayout>

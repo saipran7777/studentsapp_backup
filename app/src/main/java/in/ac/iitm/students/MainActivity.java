@@ -19,6 +19,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Display;
@@ -27,8 +28,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +49,7 @@ import in.ac.iitm.students.Fragments.GalleryFragment;
 import in.ac.iitm.students.Fragments.GameradarFragment;
 import in.ac.iitm.students.Fragments.MapFragment;
 import in.ac.iitm.students.Fragments.ImportantContacts;
+import in.ac.iitm.students.Fragments.MessMenuFragment;
 import in.ac.iitm.students.Fragments.TheFifthEstateFragment;
 import in.ac.iitm.students.Gcm.QuickstartPreferences;
 import in.ac.iitm.students.Gcm.RegistrationIntentService;
@@ -54,7 +58,7 @@ import in.ac.iitm.students.Utils.Utils;
 import in.ac.iitm.students.Views.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener ,View.OnClickListener {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "MainActivity";
@@ -103,13 +107,22 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        ((CardView) findViewById(R.id.menu_contacts)).setOnClickListener(this);
+        ((CardView) findViewById(R.id.menu_map)).setOnClickListener(this);
+        ((CardView) findViewById(R.id.menu_feedback)).setOnClickListener(this);
+        ((CardView) findViewById(R.id.menu_gameradar)).setOnClickListener(this);
+        ((CardView) findViewById(R.id.menu_messmenu)).setOnClickListener(this);
+        ((CardView) findViewById(R.id.menu_t5)).setOnClickListener(this);
+        ((CardView) findViewById(R.id.menu_academiccalender)).setOnClickListener(this);
+        ((CardView) findViewById(R.id.menu_netaccess)).setOnClickListener(this);
 
-
-        FragmentTransaction fragmentTransaction =
+      /*  FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, new MapFragment());
-        fragmentTransaction.commit();
+        fragmentTransaction.commit();*/
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(MainActivity.this));
+
+
         if (checkPlayServices()) {
             // Start IntentService to register this application with GCM.
             Intent intent = new Intent(this, RegistrationIntentService.class);
@@ -117,6 +130,8 @@ public class MainActivity extends AppCompatActivity
             Log.d("hai there", "hai");
 
         }
+
+
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -232,6 +247,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        ((FrameLayout) findViewById(R.id.fragment_container)).setVisibility(View.VISIBLE);
+        ((ScrollView) findViewById(R.id.menu_container)).setVisibility(View.GONE);
+
         int id = item.getItemId();
         showViews();
         FragmentTransaction fragmentTransaction =
@@ -252,6 +270,9 @@ public class MainActivity extends AppCompatActivity
 
         }else if(id==R.id.nav_academiccalender){
             fragmentTransaction.replace(R.id.fragment_container, new AcademicCalendarFragment());
+
+        }else if(id==R.id.nav_messmenu){
+            fragmentTransaction.replace(R.id.fragment_container, new MessMenuFragment());
 
         }else if(id==R.id.nav_gameradar){
             fragmentTransaction.replace(R.id.fragment_container, new GameradarFragment());
@@ -334,4 +355,42 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onClick(View v) {
+        ((FrameLayout) findViewById(R.id.fragment_container)).setVisibility(View.VISIBLE);
+        ((ScrollView) findViewById(R.id.menu_container)).setVisibility(View.GONE);
+        int id = v.getId();
+        showViews();
+        FragmentTransaction fragmentTransaction =
+                getSupportFragmentManager().beginTransaction();
+        if (id == R.id.menu_contacts) {
+            fragmentTransaction.replace(R.id.fragment_container, new ImportantContacts());
+        } else if (id == R.id.menu_map) {
+            hideViews();
+            fragmentTransaction.replace(R.id.fragment_container, new MapFragment());
+        } else if  (id == R.id.nav_gallery) {
+            fragmentTransaction.replace(R.id.fragment_container, new GalleryFragment());
+        }else if (id==R.id.menu_t5){
+            fragmentTransaction.replace(R.id.fragment_container, new TheFifthEstateFragment());
+
+        } else if(id==R.id.menu_feedback){
+            fragmentTransaction.replace(R.id.fragment_container, new FeedbackFragment());
+
+        }else if(id==R.id.menu_academiccalender){
+            fragmentTransaction.replace(R.id.fragment_container, new AcademicCalendarFragment());
+
+        }else if(id==R.id.menu_messmenu){
+            fragmentTransaction.replace(R.id.fragment_container, new MessMenuFragment());
+
+        }else if(id==R.id.menu_gameradar){
+            fragmentTransaction.replace(R.id.fragment_container, new GameradarFragment());
+        }
+        else if (id == R.id.menu_netaccess) {
+            Intent intent = new Intent(this,NetaccessActivity.class);
+            startActivity(intent);
+        }
+        fragmentTransaction.commit();
+
+
+    }
 }

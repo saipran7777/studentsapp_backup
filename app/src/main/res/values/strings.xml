@@ -42,7 +42,7 @@
     <string name="feedbackpostcommentremoveurel">https://students.iitm.ac.in/studentsapp/feedbackportal/delcomment.php</string>
     <string name="feedbackangersubmiturl">https://students.iitm.ac.in/studentsapp/feedbackportal/setangrylevel.php</string>
     <string name="firebaseurl">https://brilliant-fire-4073.firebaseio.com</string>
-<string name="gcmserverkey">AIzaSyBDdn_zOsDvz7YBZzHUJkSjEO4Md8otdJA</string>
+    <string name="gcmserverkey">AIzaSyBDdn_zOsDvz7YBZzHUJkSjEO4Md8otdJA</string>
     <string name="title_activity_news">NewsActivity</string>
     <string name="add_tag">Add Tag</string>
 
