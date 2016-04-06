@@ -69,12 +69,14 @@ public class GameRadarProfileEditActivity extends AppCompatActivity {
     boolean alredy_have_account = false;
     String dpimgurl;
     public ProgressDialog ringProgressDialog;
-
+    Boolean first=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_radar_profile_edit);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        if(Utils.getprefString(Strings.GAMERADARUSER, this) == "") first=true;
 
         Firebase.setAndroidContext(this);
         myFirebaseRef = new Firebase(this.getString(R.string.firebaseurl));
@@ -97,11 +99,12 @@ public class GameRadarProfileEditActivity extends AppCompatActivity {
 
         String rollnostring = rollno.getText().toString().toLowerCase();
         Firebase userRef = myFirebaseRef.child("game_radar").child("users").child(rollnostring);
-
+        final ProgressDialog progressDialog = ProgressDialog.show(this, "Please wait ...", "Loading ...", true);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //  Log.d("user data",dataSnapshot.getValue().toString()) ;
+                progressDialog.dismiss();
                 if (dataSnapshot.getValue() != null) {
                     GameRadarUser gameRadarUser = dataSnapshot.getValue(GameRadarUser.class);
                     Glide.with(GameRadarProfileEditActivity.this)
@@ -159,6 +162,10 @@ public class GameRadarProfileEditActivity extends AppCompatActivity {
                     });*/
                 } else if ((bitmap == null) || Utils.isEmpty(name) || Utils.isEmpty(rollno) || Utils.isEmpty(phonenum)
                         || Utils.isEmpty(hostal) || Utils.isEmpty(roomno)) {
+                    if (bitmap==null){
+                        Toast.makeText(GameRadarProfileEditActivity.this, "you haven't selected profile pic",
+                                Toast.LENGTH_LONG).show();
+                    }else
                     Toast.makeText(GameRadarProfileEditActivity.this, "you haven't enterd everything",
                             Toast.LENGTH_LONG).show();
                 } else {
@@ -365,7 +372,13 @@ public class GameRadarProfileEditActivity extends AppCompatActivity {
                         Toast.makeText(GameRadarProfileEditActivity.this
                                 , toast, Toast.LENGTH_LONG).show();
                         //  ringProgressDialog.dismiss();
+                        if(first){
+                            Intent intent =new Intent(getBaseContext(),MainActivity.class);
+                            intent.putExtra("gameradar",true);
+                            startActivity(intent);
+                        }
                         finish();
+
                     }
                 });
 

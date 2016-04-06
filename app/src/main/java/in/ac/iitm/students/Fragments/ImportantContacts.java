@@ -41,8 +41,15 @@ public class ImportantContacts extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
         ArrayList<Contacts> Contacts=new ArrayList<Contacts>();
-        Contacts.add(new Contacts("9043259944","Arun Padiyan"));
-        Contacts.add(new Contacts("9043259944","Arun Padiyan"));
+        Contacts.add(new Contacts("04422578888","Medical Emergency"));
+        Contacts.add(new Contacts("04422579999","Security"));
+        Contacts.add(new Contacts("04422575555","Tele Counselling"));
+        Contacts.add(new Contacts("04422575987","Lan Complants"));
+        Contacts.add(new Contacts("04422578187","Electrical Complants"));
+        Contacts.add(new Contacts("04422578504","CCW Office"));
+
+
+
         Utils.saveprefBool(ISEXPANDED, false, getActivity());
 
         mRecyclerView.setAdapter(new ContactsAdapter(getActivity(),Contacts));

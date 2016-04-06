@@ -22,8 +22,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="#9d9d9d">
+            android:background="@color/theme_bg"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -32,15 +32,16 @@
                 android:weightSum="1">
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/menu_map"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="20dp"
-                    android:layout_weight=".5"
-                    android:id="@+id/menu_map">
+                    android:layout_weight=".5">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="@color/card_bg"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
@@ -48,9 +49,9 @@
                             android:layout_width="130dp"
                             android:layout_height="130dp"
                             android:layout_gravity="center_horizontal"
-                            android:src="@drawable/ic_map_black_24dp"
                             android:padding="30dp"
-                            android:tint="@color/colorAccent" />
+                            android:src="@drawable/ic_map_black_48dp"
+                            android:tint="@color/card_text" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -58,20 +59,21 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_horizontal"
                             android:text="Map"
-                            android:textColor="@color/colorPrimaryDark" />
+                            android:textColor="@color/card_text" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/menu_contacts"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="20dp"
-                    android:layout_weight=".5"
-                    android:id="@+id/menu_contacts">
+                    android:layout_weight=".5">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="@color/card_bg"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
@@ -79,9 +81,9 @@
                             android:layout_width="130dp"
                             android:layout_height="130dp"
                             android:layout_gravity="center_horizontal"
-                            android:src="@drawable/ic_contact_phone_black_24dp"
                             android:padding="30dp"
-                            android:tint="@color/colorAccent" />
+                            android:src="@drawable/ic_contact_phone_black_48dp"
+                            android:tint="@color/card_text" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -89,7 +91,7 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_horizontal"
                             android:text="Important Contacts"
-                            android:textColor="@color/colorPrimaryDark" />
+                            android:textColor="@color/card_text" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
             </LinearLayout>
@@ -101,15 +103,16 @@
                 android:weightSum="1">
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/menu_gameradar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="20dp"
-                    android:layout_weight=".5"
-                    android:id="@+id/menu_gameradar">
+                    android:layout_weight=".5">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="@color/card_bg"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
@@ -117,9 +120,9 @@
                             android:layout_width="130dp"
                             android:layout_height="130dp"
                             android:layout_gravity="center_horizontal"
-                            android:src="@drawable/ic_wifi_tethering_black_24dp"
                             android:padding="30dp"
-                            android:tint="@color/colorAccent" />
+                            android:src="@drawable/ic_wifi_tethering_black_48dp"
+                            android:tint="@color/card_text" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -127,20 +130,21 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_horizontal"
                             android:text="Game Radar"
-                            android:textColor="@color/colorPrimaryDark" />
+                            android:textColor="@color/card_text" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/menu_feedback"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="20dp"
-                    android:layout_weight=".5"
-                    android:id="@+id/menu_feedback">
+                    android:layout_weight=".5">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="@color/card_bg"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
@@ -148,9 +152,9 @@
                             android:layout_width="130dp"
                             android:layout_height="130dp"
                             android:layout_gravity="center_horizontal"
-                            android:src="@drawable/ic_error_black_24dp"
                             android:padding="30dp"
-                            android:tint="@color/colorAccent" />
+                            android:src="@drawable/ic_error_black_48dp"
+                            android:tint="@color/card_text" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -158,7 +162,7 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_horizontal"
                             android:text="FeedBack Portal"
-                            android:textColor="@color/colorPrimaryDark" />
+                            android:textColor="@color/card_text" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
             </LinearLayout>
@@ -170,15 +174,16 @@
                 android:weightSum="1">
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/menu_t5"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="20dp"
-                    android:layout_weight=".5"
-                    android:id="@+id/menu_t5">
+                    android:layout_weight=".5">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="@color/card_bg"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
@@ -186,30 +191,31 @@
                             android:layout_width="130dp"
                             android:layout_height="130dp"
                             android:layout_gravity="center_horizontal"
-                            android:src="@drawable/ic_google_news_xxl"
                             android:padding="30dp"
-                            android:tint="@color/colorAccent" />
+                            android:src="@drawable/ic_import_contacts_black_48dp"
+                            android:tint="@color/card_text" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_horizontal"
-                            android:text="T5"
-                            android:textColor="@color/colorPrimaryDark" />
+                            android:text="T5E"
+                            android:textColor="@color/card_text" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/menu_academiccalender"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="20dp"
-                    android:layout_weight=".5"
-                    android:id="@+id/menu_academiccalender">
+                    android:layout_weight=".5">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="@color/card_bg"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
@@ -217,9 +223,9 @@
                             android:layout_width="130dp"
                             android:layout_height="130dp"
                             android:layout_gravity="center_horizontal"
-                            android:src="@drawable/ic_date_range_black_24dp"
                             android:padding="30dp"
-                            android:tint="@color/colorAccent" />
+                            android:src="@drawable/ic_date_range_black_48dp"
+                            android:tint="@color/card_text" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -227,7 +233,7 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_horizontal"
                             android:text="Academic Calendar"
-                            android:textColor="@color/colorPrimaryDark" />
+                            android:textColor="@color/card_text" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
@@ -240,25 +246,26 @@
                 android:weightSum="1">
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/menu_messmenu"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="20dp"
-                    android:layout_weight=".5"
-                    android:id="@+id/menu_messmenu">
+                    android:layout_weight=".5">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_horizontal"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:background="@color/card_bg">
 
                         <ImageView
                             android:layout_width="130dp"
                             android:layout_height="130dp"
                             android:layout_gravity="center_horizontal"
-                            android:src="@drawable/ic_restaurant_menu_black_24dp"
                             android:padding="30dp"
-                            android:tint="@color/colorAccent" />
+                            android:src="@drawable/ic_restaurant_menu_black_48dp"
+                            android:tint="@color/card_text" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -266,29 +273,31 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_horizontal"
                             android:text="Mess Menu"
-                            android:textColor="@color/colorPrimaryDark" />
-                    </LinearLayout>                </android.support.v7.widget.CardView>
+                            android:textColor="@color/card_text" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/menu_netaccess"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="20dp"
-                    android:layout_weight=".5"
-                    android:id="@+id/menu_netaccess">
+                    android:layout_weight=".5">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_horizontal"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:background="@color/card_bg">
 
                         <ImageView
                             android:layout_width="130dp"
                             android:layout_height="130dp"
                             android:layout_gravity="center_horizontal"
-                            android:src="@drawable/ic_network_wifi_black_24dp"
                             android:padding="30dp"
-                            android:tint="@color/colorAccent" />
+                            android:src="@drawable/ic_network_wifi_black_48dp"
+                            android:tint="@color/card_text" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -296,8 +305,9 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_horizontal"
                             android:text="Netaccess"
-                            android:textColor="@color/colorPrimaryDark" />
-                    </LinearLayout>                </android.support.v7.widget.CardView>
+                            android:textColor="@color/card_text" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
             </LinearLayout>
 

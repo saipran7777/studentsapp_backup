@@ -67,13 +67,14 @@ public class MainActivity extends AppCompatActivity
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     RelativeLayout profilePic ;
     DrawerLayout drawer;
+    Toolbar toolbar;
     static Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Firebase.setAndroidContext(this);
 
@@ -102,8 +103,8 @@ public class MainActivity extends AppCompatActivity
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(MainActivity.this,ProfileActivity.class);
-                startActivity(intent);
+             //   Intent intent =new Intent(MainActivity.this,ProfileActivity.class);
+              //  startActivity(intent);
             }
         });
 
@@ -154,6 +155,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(startActivity);
             }
         });*/
+        restartProfileedit();
 
     }
     public void openDrawer()
@@ -226,6 +228,7 @@ public class MainActivity extends AppCompatActivity
             return;
         }else {
             this.doubleBackToExitPressedOnce = true;
+            drawer.openDrawer(GravityCompat.START);
             Toast.makeText(this, "Please press BACK again to exit", Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
 
@@ -240,13 +243,26 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    public void restartProfileedit(){
+        Intent i= getIntent();
+        if(i.getBooleanExtra("gameradar",false)){
+            ((FrameLayout) findViewById(R.id.fragment_container)).setVisibility(View.VISIBLE);
+            ((ScrollView) findViewById(R.id.menu_container)).setVisibility(View.GONE);
+            FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, new GameradarFragment());
+            fragmentTransaction.commit();
 
+        }
+    }
 
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
         ((FrameLayout) findViewById(R.id.fragment_container)).setVisibility(View.VISIBLE);
         ((ScrollView) findViewById(R.id.menu_container)).setVisibility(View.GONE);
 
@@ -255,7 +271,7 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
         if (id == R.id.nav_contacts) {
-
+            toolbar.setTitle("Important Contacts");
             fragmentTransaction.replace(R.id.fragment_container, new ImportantContacts());
         } else if (id == R.id.nav_map) {
             hideViews();
@@ -263,18 +279,28 @@ public class MainActivity extends AppCompatActivity
         } else if  (id == R.id.nav_gallery) {
             fragmentTransaction.replace(R.id.fragment_container, new GalleryFragment());
         }else if (id==R.id.nav_fifthestate){
+            toolbar.setTitle("The Fifth Estate");
+
             fragmentTransaction.replace(R.id.fragment_container, new TheFifthEstateFragment());
 
         } else if(id==R.id.nav_feedback){
+            toolbar.setTitle("FeedBack Portal");
+
             fragmentTransaction.replace(R.id.fragment_container, new FeedbackFragment());
 
         }else if(id==R.id.nav_academiccalender){
+            toolbar.setTitle("Academic Calendar");
+
             fragmentTransaction.replace(R.id.fragment_container, new AcademicCalendarFragment());
 
         }else if(id==R.id.nav_messmenu){
+            toolbar.setTitle("Mess Menu");
+
             fragmentTransaction.replace(R.id.fragment_container, new MessMenuFragment());
 
         }else if(id==R.id.nav_gameradar){
+            toolbar.setTitle("Game Radar");
+
             fragmentTransaction.replace(R.id.fragment_container, new GameradarFragment());
 
 
@@ -324,8 +350,7 @@ public class MainActivity extends AppCompatActivity
         }
         fragmentTransaction.commit();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 
