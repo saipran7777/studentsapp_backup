@@ -11,14 +11,18 @@
         "client_id": "android:in.ac.iitm.students",
         "client_type": 1,
         "android_client_info": {
-          "package_name": "in.ac.iitm.students"
+          "package_name": "in.ac.iitm.students",
+          "certificate_hash": []
         }
       },
       "oauth_client": [],
       "api_key": [],
       "services": {
         "analytics_service": {
-          "status": 1
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-61389535-5"
+          }
         },
         "cloud_messaging_service": {
           "status": 2,

@@ -6,8 +6,8 @@
     <color name="window_background">#FFF5F5F5</color>
     <color name="comment_background">#4e0f8e82</color>
     <color name="ripplecolor">#cacaca</color>
-    <color name="card_bg">#c8261c1e</color>
-    <color name="card_text">#c8d1c8</color>
-    <color name="theme_bg">#193038</color>
+    <color name="card_bg">#e336387b</color>
+    <color name="card_text">#f9f9f9</color>
+    <color name="theme_bg">#561e3071</color>
 
 </resources>

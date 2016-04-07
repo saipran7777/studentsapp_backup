@@ -287,7 +287,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         inRequest = false;
-                        Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "no net connection", Toast.LENGTH_SHORT).show();
                         Log.d("volley", error.toString());
                         //  Toast.makeText(MainActivity.this,error.toString(),Toast.LENGTH_LONG).show();
                     }

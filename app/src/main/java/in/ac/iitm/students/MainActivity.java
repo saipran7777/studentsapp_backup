@@ -37,6 +37,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.client.Firebase;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawer;
     Toolbar toolbar;
     static Menu menu;
-
+    Tracker mTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +79,11 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Firebase.setAndroidContext(this);
+
+        MyApplication application = (MyApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        mTracker.setScreenName("main activity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -265,48 +272,59 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         ((FrameLayout) findViewById(R.id.fragment_container)).setVisibility(View.VISIBLE);
         ((ScrollView) findViewById(R.id.menu_container)).setVisibility(View.GONE);
+        String Action_string="";
 
         int id = item.getItemId();
         showViews();
         FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
         if (id == R.id.nav_contacts) {
+            Action_string ="nav_contacts";
             toolbar.setTitle("Important Contacts");
             fragmentTransaction.replace(R.id.fragment_container, new ImportantContacts());
         } else if (id == R.id.nav_map) {
+            Action_string ="nav_map";
+
             hideViews();
             fragmentTransaction.replace(R.id.fragment_container, new MapFragment());
         } else if  (id == R.id.nav_gallery) {
+
             fragmentTransaction.replace(R.id.fragment_container, new GalleryFragment());
         }else if (id==R.id.nav_fifthestate){
             toolbar.setTitle("The Fifth Estate");
+            Action_string ="nav_t5e";
 
             fragmentTransaction.replace(R.id.fragment_container, new TheFifthEstateFragment());
 
         } else if(id==R.id.nav_feedback){
             toolbar.setTitle("FeedBack Portal");
+            Action_string ="nav_feedback";
 
             fragmentTransaction.replace(R.id.fragment_container, new FeedbackFragment());
 
         }else if(id==R.id.nav_academiccalender){
             toolbar.setTitle("Academic Calendar");
+            Action_string ="nav_ac_calender";
 
             fragmentTransaction.replace(R.id.fragment_container, new AcademicCalendarFragment());
 
         }else if(id==R.id.nav_messmenu){
             toolbar.setTitle("Mess Menu");
+            Action_string ="nav_messmenu";
 
             fragmentTransaction.replace(R.id.fragment_container, new MessMenuFragment());
 
         }else if(id==R.id.nav_gameradar){
             toolbar.setTitle("Game Radar");
+            Action_string ="nav_game_radar";
 
             fragmentTransaction.replace(R.id.fragment_container, new GameradarFragment());
 
 
         }else if(id==R.id.nav_reportbug){
-            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "institutewebops@gmail.com", null));
+            Action_string ="nav_bugreport";
 
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "institutewebops@gmail.com", null));
             Display display = getWindowManager().getDefaultDisplay();
             Point size = new Point();
             display.getSize(size);
@@ -324,6 +342,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(Intent.createChooser(emailIntent, "Send feedback / bug report"));
         }
         else if (id == R.id.nav_netaccess) {
+            Action_string ="nav_netaccess";
+
             Intent intent = new Intent(this,NetaccessActivity.class);
             startActivity(intent);
         }else if (id == R.id.nav_share) {
@@ -336,6 +356,8 @@ public class MainActivity extends AppCompatActivity
 
             startActivity(Intent.createChooser(s, "Quote"));
         } else if (id == R.id.web_site) {
+            Action_string ="nav_website";
+
             String url="https://students.iitm.ac.in/";
             Uri webpage = Uri.parse(url);
             Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
@@ -343,6 +365,8 @@ public class MainActivity extends AppCompatActivity
                startActivity(intent);
             }
         }else if (id == R.id.nav_logout){
+            Action_string ="nav_logout";
+
             Utils.clearpref(this);
             Intent intent = new Intent(this,LoginActivity.class);
             startActivity(intent);
@@ -350,6 +374,11 @@ public class MainActivity extends AppCompatActivity
         }
         fragmentTransaction.commit();
 
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Navigation Drawer")
+                .setAction("hit")
+                .setLabel(Action_string)
+                .build());
 
         return true;
     }

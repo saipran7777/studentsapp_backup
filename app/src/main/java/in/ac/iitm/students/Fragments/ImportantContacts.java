@@ -44,8 +44,8 @@ public class ImportantContacts extends Fragment {
         Contacts.add(new Contacts("04422578888","Medical Emergency"));
         Contacts.add(new Contacts("04422579999","Security"));
         Contacts.add(new Contacts("04422575555","Tele Counselling"));
-        Contacts.add(new Contacts("04422575987","Lan Complants"));
-        Contacts.add(new Contacts("04422578187","Electrical Complants"));
+        Contacts.add(new Contacts("04422575987","Lan Complaints"));
+        Contacts.add(new Contacts("04422578187","Electrical Complaints"));
         Contacts.add(new Contacts("04422578504","CCW Office"));
 
 

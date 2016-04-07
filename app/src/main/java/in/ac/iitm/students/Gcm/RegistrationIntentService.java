@@ -23,6 +23,12 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
@@ -32,6 +38,8 @@ import in.ac.iitm.students.Utils.Strings;
 import in.ac.iitm.students.Utils.Utils;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegistrationIntentService extends IntentService {
 
@@ -91,6 +99,7 @@ public class RegistrationIntentService extends IntentService {
      */
     private void sendRegistrationToServer(String token) {
         Utils.saveprefString(Strings.GCMTOKEN,token,getBaseContext());
+        Register(token);
         // Add custom implementation, as needed.
         Log.d("hai there", "i got it");
 
@@ -110,5 +119,40 @@ public class RegistrationIntentService extends IntentService {
         }
     }
     // [END subscribe_topics]
+    public  void Register(final String token){
+        RequestQueue queue = Volley.newRequestQueue(this);
 
+        String url =getString(R.string.GCMregister);
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Log.d("Response", response);
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        //  Log.d("Error.Response", response);
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("gcmtoken", token);
+                params.put("rollno", Utils.getprefString(Strings.ROLLNO, getBaseContext()).toLowerCase());
+                params.put("name", Utils.getprefString(Strings.NAME, getBaseContext()).toLowerCase());
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
 }
