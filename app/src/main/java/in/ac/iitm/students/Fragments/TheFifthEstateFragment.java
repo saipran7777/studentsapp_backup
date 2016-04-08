@@ -74,7 +74,7 @@ public class TheFifthEstateFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(context);
             progress = new ProgressDialog(context);
             progress.setCancelable(false);
-            progress.setMessage("loading t5...");
+            progress.setMessage("loading t5e...");
             progress.show();
 
 

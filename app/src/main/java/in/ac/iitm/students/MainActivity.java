@@ -347,7 +347,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this,NetaccessActivity.class);
             startActivity(intent);
         }else if (id == R.id.nav_share) {
-            String string ="<a ref=\"https://play.google.com/store/apps/details?id="+getPackageName()+"\">IITM Students App</a>" ;
+            String string ="https://play.google.com/store/apps/details?id="+getPackageName();
             Intent s = new Intent(android.content.Intent.ACTION_SEND);
 
             s.setType("text/plain");
