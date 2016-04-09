@@ -225,7 +225,7 @@ public class GameradarFragment extends Fragment {
                     .fromJson(Utils.getprefString(Strings.GAMERADARDATA, context), new TypeToken<ArrayList<GameRadarGame>>() {
                     }.getType());
             if (gameRadarGames!=null ){
-                gameRadarAdapter.setGameList(reverse(gameRadarGames));
+                gameRadarAdapter.setGameList(gameRadarGames);
                 gameRadarAdapter.notifyDataSetChanged();
             }
 
@@ -245,7 +245,7 @@ public class GameradarFragment extends Fragment {
                         Log.d("key", postSnapshot.getKey());
                         gameRadarGames.add(game);
                     }
-                    gameRadarAdapter.setGameList(reverse(gameRadarGames));
+                    gameRadarAdapter.setGameList(gameRadarGames);
                     ringProgressDialog.dismiss();
                     Utils.saveprefString(Strings.GAMERADARDATA, gson.toJson(gameRadarGames), context);
                     gameRadarAdapter.notifyDataSetChanged();

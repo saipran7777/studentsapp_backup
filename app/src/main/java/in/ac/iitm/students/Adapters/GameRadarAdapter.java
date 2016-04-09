@@ -1,8 +1,15 @@
 package in.ac.iitm.students.Adapters;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.SystemClock;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,12 +27,15 @@ import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import in.ac.iitm.students.GameRadarProfileActivity;
+import in.ac.iitm.students.MainActivity;
 import in.ac.iitm.students.Objects.GameRadarGame;
 import in.ac.iitm.students.Objects.GameRadarUser;
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.Services.NotificationPublisher;
 import in.ac.iitm.students.Utils.GcmUtils;
 import in.ac.iitm.students.Utils.Strings;
 import in.ac.iitm.students.Utils.Utils;
@@ -90,6 +100,7 @@ public class GameRadarAdapter extends RecyclerView.Adapter<GameRadarAdapter.View
 
                     myFirebaseRef.child("game_radar").child("users").child(gameRadarUser.getRollno())
                             .child("games").child(gameRadarGame.getId()).removeValue();
+
                 }
             });
         } else {
@@ -108,6 +119,8 @@ public class GameRadarAdapter extends RecyclerView.Adapter<GameRadarAdapter.View
 
                     String ids[] = {Utils.getprefString(Strings.GCMTOKEN, context)};
                     GcmUtils.requestWithSomeHttpHeaders(context, ids, "hai handsome", "football");
+                    BuildNotofication(1,"Game Radar",gameRadarGame.getGame()+" will start at "+
+                            getTimeString(gameRadarGame.getStartTime()),gameRadarGame.getStartTime()-10*1000*60);
                 }
             });
         }
@@ -214,6 +227,12 @@ public class GameRadarAdapter extends RecyclerView.Adapter<GameRadarAdapter.View
         SimpleDateFormat df2 = new SimpleDateFormat("dd MMM , KK:mm a");
         return df2.format(date);
     }
+    private String getTimeString(Long dateLong) {
+        //long val = 1346524199000l;
+        Date date = new Date(dateLong);
+        SimpleDateFormat df2 = new SimpleDateFormat("KK:mm a");
+        return df2.format(date);
+    }
 
     public void setGameList(ArrayList<GameRadarGame> gameRadarGamestemp) {
         this.gameRadarGames = gameRadarGamestemp;
@@ -294,5 +313,48 @@ public class GameRadarAdapter extends RecyclerView.Adapter<GameRadarAdapter.View
 
         final AlertDialog dialog = alertDialogBuilder.create();
         dialog.show();
+    }
+   public void BuildNotofication(int mId,String Tittle,String Content,long time){
+
+       NotificationCompat.Builder mBuilder =
+               new NotificationCompat.Builder(context)
+                       .setSmallIcon(R.drawable.ic_wifi_tethering_black_24dp)
+                       .setContentTitle(Tittle)
+                       .setContentText(Content);
+// Creates an explicit intent for an Activity in your app
+       Intent resultIntent = new Intent(context, MainActivity.class);
+       resultIntent.putExtra("gameradar",true);
+
+// The stack builder object will contain an artificial back stack for the
+// started Activity.
+// This ensures that navigating backward from the Activity leads out of
+// your application to the Home screen.
+       TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+// Adds the back stack for the Intent (but not the Intent itself)
+       stackBuilder.addParentStack(MainActivity.class);
+// Adds the Intent that starts the Activity to the top of the stack
+       stackBuilder.addNextIntent(resultIntent);
+       PendingIntent resultPendingIntent =
+               stackBuilder.getPendingIntent(
+                       0,
+                       PendingIntent.FLAG_UPDATE_CURRENT
+               );
+       mBuilder.setContentIntent(resultPendingIntent);
+       NotificationManager mNotificationManager =
+               (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+// mId allows you to update the notification later on.
+       scheduleNotification(mBuilder.build(),time);
+       //mNotificationManager.notify(mId, mBuilder.build());
+   }
+    private void scheduleNotification(Notification notification,long time) {
+
+        Intent notificationIntent = new Intent(context, NotificationPublisher.class);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long futureInMillis = time- Calendar.getInstance().getTimeInMillis();
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
     }
 }

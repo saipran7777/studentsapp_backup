@@ -6,14 +6,14 @@
     android:foregroundGravity="center_vertical">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:id="@+id/imageView"
         android:layout_gravity="center_vertical"
         android:src="@drawable/ic_launcher_notif"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="21dp"
         android:layout_marginLeft="9dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="21dp" />
 
     <TextView
         android:layout_width="wrap_content"

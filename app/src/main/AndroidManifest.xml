@@ -93,6 +93,7 @@
                 <category android:name="org.interiitsports.interiit" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".Services.NotificationPublisher" />
 
         <service
             android:name=".Gcm.MyGcmListenerService"

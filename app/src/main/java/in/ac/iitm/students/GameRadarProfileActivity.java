@@ -1,8 +1,10 @@
 package in.ac.iitm.students;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,6 +39,7 @@ public class GameRadarProfileActivity extends AppCompatActivity {
         name = (TextView) findViewById(R.id.gameradar_name);
         rollno = (EditText) findViewById(R.id.gameradar_rollno);
         phonenum = (EditText) findViewById(R.id.gameradar_phoneno);
+
         hostal = (EditText) findViewById(R.id.gameradar_hostal);
         roomno = (EditText) findViewById(R.id.gameradar_roomno);
         if (i.getExtras() != null) {
@@ -51,9 +54,22 @@ public class GameRadarProfileActivity extends AppCompatActivity {
                     .load(gameRadarUser.getDpurl())
                     .centerCrop()
                     .into(imageView);
+            phonenum.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialPhoneNumber(gameRadarUser.getPhoneno());
+                }
+            });
 
         }
 
 
+    }
+    public void dialPhoneNumber(String phoneNumber) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        if (intent.resolveActivity(getApplication().getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 }

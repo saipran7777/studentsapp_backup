@@ -235,7 +235,10 @@ public class MainActivity extends AppCompatActivity
             return;
         }else {
             this.doubleBackToExitPressedOnce = true;
-            drawer.openDrawer(GravityCompat.START);
+
+            ((FrameLayout) findViewById(R.id.fragment_container)).setVisibility(View.GONE);
+            ((ScrollView) findViewById(R.id.menu_container)).setVisibility(View.VISIBLE);
+
             Toast.makeText(this, "Please press BACK again to exit", Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
 
