@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="in.ac.iitm.students">
+    package="in.ac.iitm.students" >
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -8,6 +8,7 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <permission
         android:name="org.interiitsports.interiit.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
@@ -19,11 +20,11 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme" >
         <receiver android:name=".NetaccessActivity$switchButtonListener" />
-        <receiver android:name=".NetaccessActivity$WifiReceiver">
-            <intent-filter android:priority="100">
+        <receiver android:name=".NetaccessActivity$WifiReceiver" >
+            <intent-filter android:priority="100" >
                 <action android:name="android.net.wifi.STATE_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
@@ -36,7 +37,7 @@
         <activity
             android:name=".SplashScreen"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,12 +46,12 @@
         </activity>
         <activity
             android:name=".GameRadarProfileEditActivity"
-            android:label="GameRadar Profile"></activity>
+            android:label="GameRadar Profile" />
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_activityrofile"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.DesignDemo">
+            android:theme="@style/Theme.DesignDemo" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.ac.iitm.students.MainActivity" />
@@ -59,7 +60,7 @@
             android:name=".ProfileEditActivity"
             android:label="@string/title_activity_profile_edit"
             android:parentActivityName=".ProfileActivity"
-            android:theme="@style/Theme.DesignDemo">
+            android:theme="@style/Theme.DesignDemo" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.ac.iitm.students.ProfileActivity" />
@@ -86,7 +87,7 @@
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
@@ -97,14 +98,14 @@
 
         <service
             android:name=".Gcm.MyGcmListenerService"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
         <service
             android:name=".Gcm.MyInstanceIDListenerService"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
@@ -117,7 +118,7 @@
             android:name=".NewsActivity"
             android:label="News"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.ac.iitm.students.MainActivity" />
@@ -128,7 +129,7 @@
         <activity
             android:name=".NetaccessActivity"
             android:label="NetAccess" />
-        <activity android:name=".GameRadarProfileActivity"></activity>
+        <activity android:name=".GameRadarProfileActivity" />
     </application>
 
 </manifest>
